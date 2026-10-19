@@ -9,6 +9,15 @@ const el = (tag, attrs = {}, parent) => {
 };
 const reduced = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+// every page opens at the top (unless the link points to a section)
+if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+let touched = false;
+['wheel', 'touchstart', 'keydown', 'pointerdown'].forEach((t) => addEventListener(t, () => { touched = true; }, { once: true, passive: true }));
+const toTop = () => { if (!location.hash && !touched) window.scrollTo(0, 0); };
+toTop();
+addEventListener('pageshow', toTop);
+addEventListener('load', toTop);
+
 // ---------- the flight path ----------
 (() => {
   const svg = document.getElementById('flight');
@@ -518,6 +527,29 @@ const reduced = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (out) out.textContent = `${k} of ${items.length} prompts`;
   }));
   items.forEach((li) => li.addEventListener('animationend', () => li.classList.remove('is-pop')));
+})();
+
+// ---------- phones: swipe rows show where you are ----------
+(() => {
+  document.querySelectorAll('.stages, .monthly').forEach((row) => {
+    const items = [...row.children];
+    const hint = document.createElement('p');
+    hint.className = 'swipe-hint'; hint.setAttribute('aria-hidden', 'true');
+    hint.innerHTML = `Swipe <b>1 / ${items.length}</b><span class="swipe-dots">${items.map(() => '<i></i>').join('')}</span>`;
+    row.after(hint);
+    const n = hint.querySelector('b'), dots = [...hint.querySelectorAll('i')];
+    const update = () => {
+      const left = row.getBoundingClientRect().left;
+      let best = 0, d = Infinity;
+      items.forEach((it, i) => { const x = Math.abs(it.getBoundingClientRect().left - left - parseFloat(getComputedStyle(row).paddingLeft)); if (x < d) { d = x; best = i; } });
+      if (row.scrollLeft + row.clientWidth >= row.scrollWidth - 4) best = items.length - 1;
+      n.textContent = `${best + 1} / ${items.length}`;
+      dots.forEach((dot, i) => dot.classList.toggle('is-on', i === best));
+    };
+    let raf = 0;
+    row.addEventListener('scroll', () => { if (!raf) raf = requestAnimationFrame(() => { raf = 0; update(); }); }, { passive: true });
+    update();
+  });
 })();
 
 // ---------- live chat ----------

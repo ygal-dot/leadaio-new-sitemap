@@ -32,13 +32,15 @@ Home (`index.html`):
 
 Inner pages: `about.html`, `book.html` (briefing form), `contact.html`.
 
+Responsive: desktop above 1100px; tablets 761 to 1100px (stacked sections, hero path below the headline under 900px, menu button under 900px); phones up to 760px (mission stages and monthly deliverables become swipe rows, the example-mission meter sticks under the header). Every page opens at the top unless the link targets a section.
+
 Design system: `DESIGN.md`. Product brief: `PRODUCT.md`. Approved mockups: `.impeccable/mocks/`.
 
 ## Before launch
 
-- **Example data.** The flight path, telemetry, answer feed, chart, example mission and sample prompts are labelled as examples. Swap in real (anonymised) numbers when you have them.
+- **Example data.** The hero flight path and telemetry strip are no longer tagged (by request); the footer note still covers them. The answer feed, chart, example mission and sample prompts are labelled as examples. Swap in real (anonymised) numbers when you have them.
 - **Sample logos.** The eight logos are fictional placeholders for the demo. Replace them with real client logos you have permission to show, or remove the strip.
 - **Live chat.** "Start a live chat" calls `window.LeadAIOChat.open()` if a chat widget defines it, and otherwise opens an email. Wire your chat provider there.
-- **Booking.** "Book a strategy call" opens an email with a prefilled subject. Replace it with your calendar link (Calendly, HubSpot and so on) if you have one.
+- **Booking.** "Book a call" opens an email with a prefilled subject. Replace it with your calendar link (Calendly, HubSpot and so on) if you have one.
 - **Legal pages.** "Privacy policy" and "Terms" link to `#privacy` and `#terms`, which don't exist yet.
 - **Logo.** The wordmark is set in Bricolage Grotesque with a small flight-path mark. Replace it with the real logo file if there is one.
