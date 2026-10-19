@@ -1095,3 +1095,50 @@ legend { font-family: var(--f-title); font-size: 1.5rem; font-weight: 700; lette
 @media (max-width: 760px) {
   .band { --band-k: 0.7; }
 }
+
+/* =========================================================
+   HERO: AI engines we get brands cited in
+   ========================================================= */
+.engines-row { display: grid; gap: 0.9rem; margin-top: 0.4rem; }
+.er-h { font-family: var(--f-data); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold); }
+.er-list { display: flex; flex-wrap: wrap; gap: 0.9rem 1.1rem; }
+.er-list li { display: grid; justify-items: center; gap: 0.45rem; }
+.er-ic { position: relative; display: grid; place-items: center; width: 3.25rem; height: 3.25rem; border-radius: 50%; border: 1px solid var(--rule-strong); background: var(--panel); color: var(--ink); transition: border-color 200ms ease, color 200ms ease, transform 220ms var(--ease); }
+.er-ic svg { width: 1.45rem; height: 1.45rem; fill: currentColor; }
+.er-ic .er-stroke { fill: none; stroke: currentColor; stroke-width: 1.9; stroke-linecap: round; }
+.er-ic::after { content: ""; position: absolute; inset: -4px; border-radius: 50%; border: 1px solid var(--gold); opacity: 0; transform: scale(0.92); pointer-events: none; }
+.er-n { font-family: var(--f-data); font-size: 0.6875rem; color: var(--muted); letter-spacing: 0.02em; }
+@media (hover: hover) and (pointer: fine) {
+  .er-list li:hover .er-ic { border-color: var(--gold); color: var(--gold); transform: translateY(-3px); }
+  .er-list li:hover .er-n { color: var(--ink); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  /* arrive one by one after the subtitle */
+  .js .er-h { opacity: 0; animation: fade-in 600ms ease 950ms forwards; }
+  .js .er-list li { opacity: 0; transform: translateY(10px) scale(0.92); animation: drop-in 600ms var(--ease) forwards; }
+  .js .er-list li:nth-child(1) { animation-delay: 1000ms; }
+  .js .er-list li:nth-child(2) { animation-delay: 1070ms; }
+  .js .er-list li:nth-child(3) { animation-delay: 1140ms; }
+  .js .er-list li:nth-child(4) { animation-delay: 1210ms; }
+  .js .er-list li:nth-child(5) { animation-delay: 1280ms; }
+  /* then a gold "cited" ring passes from engine to engine */
+  .er-list li .er-ic::after { animation: cited 7.5s var(--ease) infinite; }
+  .er-list li:nth-child(1) .er-ic::after { animation-delay: 2s; }
+  .er-list li:nth-child(2) .er-ic::after { animation-delay: 3.5s; }
+  .er-list li:nth-child(3) .er-ic::after { animation-delay: 5s; }
+  .er-list li:nth-child(4) .er-ic::after { animation-delay: 6.5s; }
+  .er-list li:nth-child(5) .er-ic::after { animation-delay: 8s; }
+}
+@keyframes cited { 0% { opacity: 0; transform: scale(0.92); } 6% { opacity: 1; transform: scale(1); } 16% { opacity: 0; transform: scale(1.18); } 100% { opacity: 0; transform: scale(1.18); } }
+@media (max-width: 760px) {
+  .er-list { gap: 0.75rem; justify-content: space-between; }
+  .er-ic { width: 2.9rem; height: 2.9rem; }
+  .er-ic svg { width: 1.3rem; height: 1.3rem; }
+}
+/* the engines row needs room: the flight path runs below it */
+@media (min-width: 901px) {
+  .hero .console { min-height: clamp(39rem, 72svh, 42rem); }
+}
+@media (min-width: 1101px) and (max-width: 1280px) {
+  .wp--named button { left: auto; right: 44px; top: -84px; text-align: right; }
+}

@@ -42,6 +42,7 @@ Design system: `DESIGN.md`. Product brief: `PRODUCT.md`. Approved mockups: `.imp
 
 - **Example data.** The hero flight path and telemetry strip are no longer tagged (by request); the footer note still covers them. The answer feed, chart, example mission and sample prompts are labelled as examples. Swap in real (anonymised) numbers when you have them.
 - **Case studies.** The three customers are fictional demo brands with example figures. Replace them with real, approved case studies before launch.
+- **AI engine logos.** The hero row uses the ChatGPT (OpenAI), Claude, Perplexity and Gemini marks from Simple Icons (CC0 vectors; the marks remain their owners' trademarks). The Grok mark is a simple stand-in drawn for this site: swap in the official file from xAI before launch.
 - **Sample logos.** The eight logos are fictional placeholders for the demo. Replace them with real client logos you have permission to show, or remove the strip.
 - **Live chat.** "Start a live chat" calls `window.LeadAIOChat.open()` if a chat widget defines it, and otherwise opens an email. Wire your chat provider there.
 - **Booking.** "Book a call" opens an email with a prefilled subject. Replace it with your calendar link (Calendly, HubSpot and so on) if you have one.
