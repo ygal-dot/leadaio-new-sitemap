@@ -252,7 +252,7 @@ addEventListener('load', toTop);
 
 // ---------- reveal once on entering the viewport ----------
 (() => {
-  const groups = ['.panel-head', '.stage', '.feed-copy', '.feed', '.r-sources li', '.r-hub', '.r-engines li', '.tele-copy', '.tele', '.ch', '.shift', '.rules li', '.never-list li', '.cover > div', '.agenda li', '.briefing', '.msg-copy', '.msg-form', '.mini-faq', '.about-why h2', '.never-copy', '.chips li', '.field', '.book legend', '.form-end', '.foot-in > *', '.foot-legal', '.contact-head', '.cta-row', '.agenda h2', '.versus-head', '.vt-row', '.programs-detail > h2', '.pd', '.case-steps li', '.case-meter', '.prompts-head', '.prompt-bar', '.prompt-list li', '.fit-col h2', '.fit-list li', '.monthly li', '.monthly-cta', '.cases-head', '.cs', '.sourced-head', '.sc', '.vz-intro', '.vz-aside', '.vz-copy > :not(.vz-caps)', '.vz-caps li', '.vz-read', '.win-copy > *'];
+  const groups = ['.panel-head', '.stage', '.feed-copy', '.feed', '.r-sources li', '.r-hub', '.r-engines li', '.tele-copy', '.tele', '.ch', '.shift', '.rules li', '.never-list li', '.cover > div', '.agenda li', '.briefing', '.msg-copy', '.msg-form', '.mini-faq', '.about-why h2', '.never-copy', '.chips li', '.field', '.book legend', '.form-end', '.foot-in > *', '.foot-legal', '.contact-head', '.cta-row', '.agenda h2', '.versus-head', '.vt-row', '.programs-detail > h2', '.pd', '.case-steps li', '.case-meter', '.prompts-head', '.prompt-bar', '.prompt-list li', '.fit-col h2', '.fit-list li', '.monthly li', '.monthly-cta', '.cases-head', '.cs', '.sourced-head', '.sc', '.vz-intro', '.vz-aside', '.vz-copy > :not(.vz-caps)', '.vz-caps li', '.vz-read', '.win-copy > *', '.stats h2'];
   const targets = [];
   for (const sel of groups) document.querySelectorAll(sel).forEach((n, i) => { n.classList.add('reveal'); n.style.setProperty('--i', i); targets.push(n); });
   // these only flip a state (track fill, corner brackets, table rows); they don't fade as a block
@@ -694,6 +694,29 @@ addEventListener('load', toTop);
     col.classList.add('is-loop');
   });
   if ('IntersectionObserver' in window) new IntersectionObserver(([e]) => wall.classList.toggle('is-paused', !e.isIntersecting)).observe(wall);
+})();
+
+// ---------- AI search stats: numbers count up, rules draw, highlights sweep ----------
+(() => {
+  const items = [...document.querySelectorAll('.st')];
+  if (!items.length) return;
+  items.forEach((it, k) => it.style.setProperty('--k', k));
+  const count = (b, delay) => {
+    const to = parseFloat(b.dataset.to), dec = +b.dataset.dec || 0;
+    b.textContent = (0).toFixed(dec);
+    setTimeout(() => {
+      const t0 = performance.now(), dur = 1500;
+      const tick = (now) => { const k = Math.min(1, (now - t0) / dur), e = 1 - Math.pow(1 - k, 4); b.textContent = (to * e).toFixed(dec); if (k < 1) requestAnimationFrame(tick); };
+      requestAnimationFrame(tick);
+    }, delay);
+  };
+  if (!('IntersectionObserver' in window) || reduced()) { items.forEach((it) => it.classList.add('is-live')); return; }
+  const io = new IntersectionObserver((es) => es.forEach((e) => {
+    if (!e.isIntersecting) return;
+    const it = e.target, k = items.indexOf(it);
+    it.classList.add('is-live'); count(it.querySelector('.st-n b'), k * 150); io.unobserve(it);
+  }), { threshold: 0.4 });
+  items.forEach((it) => io.observe(it));
 })();
 
 // ---------- live chat ----------
