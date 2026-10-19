@@ -1161,15 +1161,9 @@ legend { font-family: var(--f-title); font-size: 1.5rem; font-weight: 700; lette
 /* the middle card: dark, framed in gold */
 .sc--framed { border-color: var(--gold); background: var(--panel-2); }
 .sc--framed .sc-ic { background: var(--ink); color: var(--bg); }
-/* the last card: solid gold */
-.sc--gold { background: var(--gold); border-color: var(--gold); color: var(--on-gold); }
-.sc--gold .sc-k { color: var(--on-gold); opacity: 0.75; }
-.sc--gold p:last-child { color: rgba(11, 10, 7, 0.78); }
-.sc--gold .sc-ic { background: var(--on-gold); color: var(--gold); }
 @media (hover: hover) and (pointer: fine) {
   .sc:hover { transform: translateY(-4px); }
-  .sc--dark:hover { border-color: var(--gold); }
-  .sc--gold:hover { background: var(--gold-hi); }
+  .sc--framed:hover { border-color: var(--gold-hi); }
 }
 @media (prefers-reduced-motion: no-preference) {
   /* icons come alive when the card arrives */
