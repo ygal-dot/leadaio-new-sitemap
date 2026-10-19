@@ -1071,7 +1071,7 @@ legend { font-family: var(--f-title); font-size: 1.5rem; font-weight: 700; lette
 .bg-orbit { --bg-img: url("../img/bg-orbit.jpg"); --pf-pos: center bottom; }
 .bg-trail { --bg-img: url("../img/bg-trail.jpg"); --pf-pos: center 75%; }
 .bg-streams { --bg-img: url("../img/bg-streams.jpg"); --pf-pos: center 78%; }
-.bg-dishes { --bg-img: url("../img/bg-dishes.jpg"); --pf-pos: center 85%; }
+.bg-fiber { --bg-img: url("../img/bg-fiber.jpg"); --pf-pos: center bottom; }
 /* zero-height anchor between the content and the footer; the image reaches up behind the content */
 .pre-foot { position: relative; height: 0; pointer-events: none; }
 .pre-foot i { position: absolute; z-index: -1; left: 0; right: 0; bottom: calc(-1 * var(--section)); height: clamp(32rem, 58vw, 48rem); background: var(--bg-img) var(--pf-pos, center) / cover no-repeat; opacity: 0.6; transform-origin: center bottom; -webkit-mask-image: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.5) 30%, #000 60%); mask-image: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.5) 30%, #000 60%); }
