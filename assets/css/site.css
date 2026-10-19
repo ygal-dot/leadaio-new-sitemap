@@ -1064,3 +1064,25 @@ legend { font-family: var(--f-title); font-size: 1.5rem; font-weight: 700; lette
   .js .has-bg::after, .js .band::before { animation: bg-in 1800ms ease 150ms backwards; }
 }
 @keyframes bg-in { from { opacity: 0; } }
+
+/* =========================================================
+   IMAGE BAND ABOVE THE FOOTER (one per page)
+   ========================================================= */
+.bg-orbit { --bg-img: url("../img/bg-orbit.jpg"); --pf-pos: center 52%; }
+.bg-pad { --bg-img: url("../img/bg-pad.jpg"); --pf-pos: center 62%; }
+.bg-streams { --bg-img: url("../img/bg-streams.jpg"); --pf-pos: center 72%; }
+.bg-dishes { --bg-img: url("../img/bg-dishes.jpg"); --pf-pos: center 78%; }
+.pre-foot { position: relative; margin-top: var(--section); height: clamp(13rem, 26vw, 24rem); overflow: hidden; pointer-events: none; }
+.pre-foot i { position: absolute; inset: -12% 0; background: var(--bg-img) var(--pf-pos, center) / cover no-repeat; -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 30%, #000 78%, transparent 100%); mask-image: linear-gradient(180deg, transparent 0%, #000 30%, #000 78%, transparent 100%); }
+.pre-foot + .foot { margin-top: 0; }
+@media (max-width: 760px) {
+  .pre-foot { height: 11rem; }
+  .pre-foot i { background-size: auto 150%; }
+}
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    /* slow parallax as the band scrolls through the viewport */
+    .pre-foot i { animation: pf-drift linear both; animation-timeline: view(); }
+  }
+}
+@keyframes pf-drift { from { transform: translateY(-9%) scale(1.04); } to { transform: translateY(9%) scale(1); } }
