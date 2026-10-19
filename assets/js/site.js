@@ -252,7 +252,7 @@ addEventListener('load', toTop);
 
 // ---------- reveal once on entering the viewport ----------
 (() => {
-  const groups = ['.panel-head', '.stage', '.feed-copy', '.feed', '.r-sources li', '.r-hub', '.r-engines li', '.tele-copy', '.tele', '.ch', '.shift', '.rules li', '.never-list li', '.cover > div', '.agenda li', '.briefing', '.msg-copy', '.msg-form', '.mini-faq', '.about-why h2', '.never-copy', '.chips li', '.field', '.book legend', '.form-end', '.foot-in > *', '.foot-legal', '.contact-head', '.cta-row', '.agenda h2', '.versus-head', '.vt-row', '.programs-detail > h2', '.pd', '.case-steps li', '.case-meter', '.prompts-head', '.prompt-bar', '.prompt-list li', '.fit-col h2', '.fit-list li', '.monthly li', '.monthly-cta', '.cases-head', '.cs', '.sourced-head', '.sc', '.sh-intro', '.sh-cta', '.sh-copy > *', '.sh-list li'];
+  const groups = ['.panel-head', '.stage', '.feed-copy', '.feed', '.r-sources li', '.r-hub', '.r-engines li', '.tele-copy', '.tele', '.ch', '.shift', '.rules li', '.never-list li', '.cover > div', '.agenda li', '.briefing', '.msg-copy', '.msg-form', '.mini-faq', '.about-why h2', '.never-copy', '.chips li', '.field', '.book legend', '.form-end', '.foot-in > *', '.foot-legal', '.contact-head', '.cta-row', '.agenda h2', '.versus-head', '.vt-row', '.programs-detail > h2', '.pd', '.case-steps li', '.case-meter', '.prompts-head', '.prompt-bar', '.prompt-list li', '.fit-col h2', '.fit-list li', '.monthly li', '.monthly-cta', '.cases-head', '.cs', '.sourced-head', '.sc', '.vz-intro', '.vz-aside', '.vz-copy > :not(.vz-caps)', '.vz-caps li', '.vz-read'];
   const targets = [];
   for (const sel of groups) document.querySelectorAll(sel).forEach((n, i) => { n.classList.add('reveal'); n.style.setProperty('--i', i); targets.push(n); });
   // these only flip a state (track fill, corner brackets, table rows); they don't fade as a block
@@ -649,24 +649,34 @@ addEventListener('load', toTop);
   cards.forEach((c) => io.observe(c));
 })();
 
-// ---------- showcase: the UI collage plays once in view; numbers count up ----------
+// ---------- radar console: rings draw, readouts count up, sweep runs only while visible ----------
 (() => {
-  const ui = document.querySelector('.sh-ui');
-  if (!ui) return;
-  const count = (el, delay) => {
-    const to = +el.dataset.to, suffix = el.textContent.replace(/[0-9]/g, '');
-    if (reduced()) return;
-    el.textContent = '0' + suffix;
-    setTimeout(() => {
-      const t0 = performance.now(), dur = 1100;
-      const tick = (now) => { const k = Math.min(1, (now - t0) / dur), e = 1 - Math.pow(1 - k, 3); el.textContent = Math.round(to * e) + suffix; if (k < 1) requestAnimationFrame(tick); };
-      requestAnimationFrame(tick);
-    }, delay);
+  const radar = document.querySelector('.radar');
+  if (!radar) return;
+  const read = document.querySelector('.vz-read');
+  const deg = document.getElementById('rd-deg');
+  const sweep = radar.querySelector('.rd-sweep');
+  const count = (b) => {
+    const to = +b.dataset.to, pre = b.dataset.pre || '';
+    const t0 = performance.now(), dur = 1300;
+    const tick = (now) => { const k = Math.min(1, (now - t0) / dur), e = 1 - Math.pow(1 - k, 3); b.textContent = pre + Math.round(to * e); if (k < 1) requestAnimationFrame(tick); };
+    b.textContent = pre + '0'; requestAnimationFrame(tick);
   };
-  const play = () => { ui.classList.add('is-live'); ui.querySelectorAll('.sh-bars em').forEach((e) => count(e, 500)); count(ui.querySelector('.sh-src-h b'), 900); };
-  if (!('IntersectionObserver' in window) || reduced()) { ui.classList.add('is-live'); return; }
-  const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { play(); io.disconnect(); } }, { threshold: 0.35 });
-  io.observe(ui);
+  // the angle readout follows the beam
+  let raf = 0, visible = false;
+  const angle = () => {
+    const m = getComputedStyle(sweep).transform;
+    if (m && m !== 'none') { const [a, b] = m.slice(7, -1).split(',').map(Number); deg.textContent = String(Math.round(((Math.atan2(b, a) * 180 / Math.PI) + 360) % 360)).padStart(3, '0'); }
+    if (visible) raf = requestAnimationFrame(angle);
+  };
+  if (!('IntersectionObserver' in window) || reduced()) { radar.classList.add('is-live'); deg.textContent = '120'; return; }
+  let played = false;
+  new IntersectionObserver(([e]) => {
+    visible = e.isIntersecting;
+    radar.classList.toggle('is-paused', !visible);
+    if (visible) { raf = requestAnimationFrame(angle); if (!played) { played = true; radar.classList.add('is-live'); read.querySelectorAll('b[data-to]').forEach(count); } }
+    else cancelAnimationFrame(raf);
+  }, { threshold: 0.2 }).observe(radar);
 })();
 
 // ---------- live chat ----------
