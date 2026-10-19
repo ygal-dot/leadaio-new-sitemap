@@ -968,3 +968,4 @@ legend { font-family: var(--f-title); font-size: 1.5rem; font-weight: 700; lette
 @media (max-width: 760px) {
   .launch { justify-self: center; max-width: 24rem; margin-top: 0.5rem; }
 }
+.nowrap { white-space: nowrap; }
