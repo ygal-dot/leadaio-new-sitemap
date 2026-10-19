@@ -232,7 +232,7 @@ const reduced = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 // ---------- reveal once on entering the viewport ----------
 (() => {
-  const groups = ['.panel-head', '.stage', '.feed-copy', '.feed', '.r-sources li', '.r-hub', '.r-engines li', '.tele-copy', '.tele', '.ch'];
+  const groups = ['.panel-head', '.stage', '.feed-copy', '.feed', '.r-sources li', '.r-hub', '.r-engines li', '.tele-copy', '.tele', '.ch', '.shift', '.rules li', '.never-list li', '.cover > div', '.agenda li', '.briefing', '.msg-copy', '.msg-form', '.mini-faq', '.about-why h2', '.never-copy'];
   const targets = [];
   for (const sel of groups) document.querySelectorAll(sel).forEach((n, i) => { n.classList.add('reveal'); n.style.setProperty('--i', i); targets.push(n); });
   // these only flip a state (track fill, corner brackets, table rows); they don't fade as a block
@@ -318,6 +318,102 @@ const reduced = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
   vp.appendChild(row);
   [...row.children].forEach((li) => { const c = li.cloneNode(true); c.setAttribute('aria-hidden', 'true'); row.appendChild(c); });
   row.classList.add('is-marquee');
+})();
+
+// ---------- mobile menu: close on navigation or outside click ----------
+(() => {
+  const menu = document.querySelector('.menu');
+  if (!menu) return;
+  menu.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => menu.removeAttribute('open')));
+  document.addEventListener('click', (e) => { if (menu.open && !menu.contains(e.target)) menu.removeAttribute('open'); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && menu.open) { menu.removeAttribute('open'); menu.querySelector('summary').focus(); } });
+})();
+
+// ---------- mission log (about): lines arrive in order, like a log being written ----------
+(() => {
+  const lines = document.querySelectorAll('.log-lines li');
+  if (!lines.length || reduced()) return;
+  lines.forEach((li) => { li.style.opacity = '0'; li.style.transform = 'translateY(6px)'; li.style.transition = 'opacity 400ms cubic-bezier(0.23, 1, 0.32, 1), transform 500ms cubic-bezier(0.23, 1, 0.32, 1)'; });
+  const show = () => lines.forEach((li, i) => setTimeout(() => { li.style.opacity = '1'; li.style.transform = 'none'; }, 500 + i * 380));
+  if (document.readyState === 'complete') show(); else addEventListener('load', show, { once: true });
+})();
+
+// ---------- forms: validate, then open a prefilled email (no backend yet) ----------
+(() => {
+  document.querySelectorAll('form[data-mailto]').forEach((form) => {
+    const done = form.querySelector('.form-done');
+    const fields = [...form.querySelectorAll('.field')];
+    const check = (field) => {
+      const input = field.querySelector('input[required], textarea[required]');
+      if (!input) return true;
+      const ok = input.value.trim() !== '' && (input.type !== 'email' || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value.trim()));
+      field.classList.toggle('is-bad', !ok);
+      input.setAttribute('aria-invalid', String(!ok));
+      const err = field.querySelector('.err');
+      if (err) { if (!err.id) err.id = (input.id || 'f') + '-err'; input.setAttribute('aria-describedby', err.id); }
+      return ok;
+    };
+    // fix errors as soon as the visitor corrects them, never before they leave a field
+    fields.forEach((f) => f.addEventListener('focusout', () => { if (f.classList.contains('is-bad') || f.dataset.touched) check(f); f.dataset.touched = '1'; }));
+    fields.forEach((f) => f.addEventListener('input', () => { if (f.classList.contains('is-bad')) check(f); }));
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const bad = fields.filter((f) => !check(f));
+      if (bad.length) { bad[0].querySelector('input, textarea').focus(); return; }
+      const data = new FormData(form);
+      const lines = [];
+      const seen = new Set();
+      for (const [k] of data) {
+        if (seen.has(k)) continue; seen.add(k);
+        const v = data.getAll(k).map((x) => String(x).trim()).filter(Boolean).join(', ');
+        if (v) lines.push(`${k}: ${v}`);
+      }
+      const subject = `${form.dataset.subject}${data.get('Company') ? ' · ' + data.get('Company') : ''}`;
+      location.href = `mailto:${form.dataset.mailto}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(lines.join('\n'))}`;
+      form.classList.add('is-sent');
+      done.hidden = false;
+      done.focus();
+    });
+    const again = form.querySelector('#brief-again, [data-again]');
+    again && again.addEventListener('click', () => { form.classList.remove('is-sent'); done.hidden = true; form.querySelector('input, textarea').focus(); });
+  });
+})();
+
+// ---------- booking: the briefing card mirrors the form as it is filled in ----------
+(() => {
+  const form = document.getElementById('brief-form');
+  if (!form) return;
+  const out = (k) => document.querySelector(`[data-show="${k}"]`);
+  const required = ['f-name', 'f-email', 'f-company', 'f-cat'].map((id) => document.getElementById(id));
+  const bar = document.getElementById('brief-bar');
+  const count = document.getElementById('brief-n');
+  const status = document.getElementById('brief-status');
+  const set = (k, v) => {
+    const dd = out(k); if (!dd) return;
+    const text = v || dd.dataset.empty;
+    if (dd.textContent === text) return;
+    dd.textContent = text;
+    dd.classList.toggle('is-empty', !v);
+    dd.classList.remove('is-fresh'); void dd.offsetWidth; if (v && !reduced()) dd.classList.add('is-fresh');
+  };
+  const sync = () => {
+    set('name', [form.elements['Name'].value.trim(), form.elements['Role'].value.trim()].filter(Boolean).join(', '));
+    set('company', [form.elements['Company'].value.trim(), form.elements['Website'].value.trim().replace(/^https?:\/\//, '')].filter(Boolean).join(' · '));
+    set('category', form.elements['Category'].value.trim());
+    set('rivals', form.elements['Rivals AI names'].value.trim());
+    set('engines', [...form.querySelectorAll('input[name="Engines"]:checked')].map((c) => c.value).join(', '));
+    set('time', (form.querySelector('input[name="Best time"]:checked') || {}).value || '');
+    const n = required.filter((i) => i.value.trim() && (i.type !== 'email' || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(i.value.trim()))).length;
+    count.textContent = n;
+    bar.parentElement.style.setProperty('--p', n / 4);
+    bar.style.setProperty('--p', n / 4);
+    status.textContent = n === 4 ? 'Ready to send' : 'Draft';
+    status.classList.toggle('is-ready', n === 4);
+  };
+  form.addEventListener('input', sync);
+  form.addEventListener('change', sync);
+  ['name', 'company', 'category', 'rivals'].forEach((k) => out(k).classList.add('is-empty'));
+  sync();
 })();
 
 // ---------- live chat ----------
