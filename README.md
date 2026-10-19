@@ -7,7 +7,7 @@ index.html            home page
 about.html, book.html, contact.html   inner pages
 assets/css/site.css   styles (tokens at the top)
 assets/js/site.js     flight path, answer feed, routing wires, telemetry chart, program tabs, mission meter, prompt filter, forms, live-chat hook
-assets/img/           black-and-white background images (generated for LeadAIO)
+assets/img/           black-and-white background images (generated for LeadAIO): hero consoles, the case studies band, and a closing image behind the last section of each page
 assets/fonts/         Bricolage Grotesque, Archivo and JetBrains Mono, self-hosted (SIL Open Font License)
 ```
 

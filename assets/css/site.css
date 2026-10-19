@@ -1066,23 +1066,23 @@ legend { font-family: var(--f-title); font-size: 1.5rem; font-weight: 700; lette
 @keyframes bg-in { from { opacity: 0; } }
 
 /* =========================================================
-   IMAGE BAND ABOVE THE FOOTER (one per page)
+   CLOSING BACKGROUND: an image behind the last section of each page
    ========================================================= */
-.bg-orbit { --bg-img: url("../img/bg-orbit.jpg"); --pf-pos: center 52%; }
-.bg-pad { --bg-img: url("../img/bg-pad.jpg"); --pf-pos: center 62%; }
-.bg-streams { --bg-img: url("../img/bg-streams.jpg"); --pf-pos: center 72%; }
-.bg-dishes { --bg-img: url("../img/bg-dishes.jpg"); --pf-pos: center 78%; }
-.pre-foot { position: relative; margin-top: var(--section); height: clamp(13rem, 26vw, 24rem); overflow: hidden; pointer-events: none; }
-.pre-foot i { position: absolute; inset: -12% 0; background: var(--bg-img) var(--pf-pos, center) / cover no-repeat; -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 30%, #000 78%, transparent 100%); mask-image: linear-gradient(180deg, transparent 0%, #000 30%, #000 78%, transparent 100%); }
-.pre-foot + .foot { margin-top: 0; }
+.bg-orbit { --bg-img: url("../img/bg-orbit.jpg"); --pf-pos: center bottom; }
+.bg-trail { --bg-img: url("../img/bg-trail.jpg"); --pf-pos: center 75%; }
+.bg-streams { --bg-img: url("../img/bg-streams.jpg"); --pf-pos: center 78%; }
+.bg-dishes { --bg-img: url("../img/bg-dishes.jpg"); --pf-pos: center 85%; }
+/* zero-height anchor between the content and the footer; the image reaches up behind the content */
+.pre-foot { position: relative; height: 0; pointer-events: none; }
+.pre-foot i { position: absolute; z-index: -1; left: 0; right: 0; bottom: calc(-1 * var(--section)); height: clamp(32rem, 58vw, 48rem); background: var(--bg-img) var(--pf-pos, center) / cover no-repeat; opacity: 0.6; transform-origin: center bottom; -webkit-mask-image: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.5) 30%, #000 60%); mask-image: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.5) 30%, #000 60%); }
 @media (max-width: 760px) {
-  .pre-foot { height: 11rem; }
-  .pre-foot i { background-size: auto 150%; }
+  .pre-foot i { height: 34rem; opacity: 0.5; }
+  .bg-orbit { --pf-pos: center calc(100% + 4.5rem); }
 }
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
-    /* slow parallax as the band scrolls through the viewport */
-    .pre-foot i { animation: pf-drift linear both; animation-timeline: view(); }
+    /* slow drift as the end of the page comes into view */
+    .pre-foot i { animation: pf-drift linear both; animation-timeline: view(); animation-range: entry 0% exit 100%; }
   }
 }
-@keyframes pf-drift { from { transform: translateY(-9%) scale(1.04); } to { transform: translateY(9%) scale(1); } }
+@keyframes pf-drift { from { transform: translateY(6%) scale(1.06); } to { transform: none; } }
