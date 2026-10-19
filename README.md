@@ -19,6 +19,7 @@ Home (`index.html`):
 
 1. **Hero console:** "Launch your brand into AI answers." A gold flight path climbs from Unknown past Reddit threads, review sites and best-of lists to Named first, with a telemetry strip. Waypoints are clickable; "Replay launch" replays it.
 2. **Sample logos** (marquee).
+2c. **LeadAIO puts your brand where AI can see it:** a gold pill, headline and call to action, then a large panel: copy with a six-point checklist on the left, and a live UI collage on the right (an AI chat naming "Your brand" first, a gold orb, share of prompts by engine with a trend line, and the sources behind the answer being ticked off). Example data.
 2b. **Be where AI knowledge is sourced:** three pillars (Distribution, Discoverability, Perception) as three matching gold-framed dark cards, with line icons that draw in.
 3. **Mission stages:** audit, placement plan, placements live, telemetry review.
 4. **SEO vs AIO:** a five-row comparison table.

@@ -252,7 +252,7 @@ addEventListener('load', toTop);
 
 // ---------- reveal once on entering the viewport ----------
 (() => {
-  const groups = ['.panel-head', '.stage', '.feed-copy', '.feed', '.r-sources li', '.r-hub', '.r-engines li', '.tele-copy', '.tele', '.ch', '.shift', '.rules li', '.never-list li', '.cover > div', '.agenda li', '.briefing', '.msg-copy', '.msg-form', '.mini-faq', '.about-why h2', '.never-copy', '.chips li', '.field', '.book legend', '.form-end', '.foot-in > *', '.foot-legal', '.contact-head', '.cta-row', '.agenda h2', '.versus-head', '.vt-row', '.programs-detail > h2', '.pd', '.case-steps li', '.case-meter', '.prompts-head', '.prompt-bar', '.prompt-list li', '.fit-col h2', '.fit-list li', '.monthly li', '.monthly-cta', '.cases-head', '.cs', '.sourced-head', '.sc'];
+  const groups = ['.panel-head', '.stage', '.feed-copy', '.feed', '.r-sources li', '.r-hub', '.r-engines li', '.tele-copy', '.tele', '.ch', '.shift', '.rules li', '.never-list li', '.cover > div', '.agenda li', '.briefing', '.msg-copy', '.msg-form', '.mini-faq', '.about-why h2', '.never-copy', '.chips li', '.field', '.book legend', '.form-end', '.foot-in > *', '.foot-legal', '.contact-head', '.cta-row', '.agenda h2', '.versus-head', '.vt-row', '.programs-detail > h2', '.pd', '.case-steps li', '.case-meter', '.prompts-head', '.prompt-bar', '.prompt-list li', '.fit-col h2', '.fit-list li', '.monthly li', '.monthly-cta', '.cases-head', '.cs', '.sourced-head', '.sc', '.sh-intro', '.sh-cta', '.sh-copy > *', '.sh-list li'];
   const targets = [];
   for (const sel of groups) document.querySelectorAll(sel).forEach((n, i) => { n.classList.add('reveal'); n.style.setProperty('--i', i); targets.push(n); });
   // these only flip a state (track fill, corner brackets, table rows); they don't fade as a block
@@ -647,6 +647,26 @@ addEventListener('load', toTop);
   if (!('IntersectionObserver' in window) || reduced()) { cards.forEach(live); return; }
   const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { live(e.target); io.unobserve(e.target); } }), { threshold: 0.4 });
   cards.forEach((c) => io.observe(c));
+})();
+
+// ---------- showcase: the UI collage plays once in view; numbers count up ----------
+(() => {
+  const ui = document.querySelector('.sh-ui');
+  if (!ui) return;
+  const count = (el, delay) => {
+    const to = +el.dataset.to, suffix = el.textContent.replace(/[0-9]/g, '');
+    if (reduced()) return;
+    el.textContent = '0' + suffix;
+    setTimeout(() => {
+      const t0 = performance.now(), dur = 1100;
+      const tick = (now) => { const k = Math.min(1, (now - t0) / dur), e = 1 - Math.pow(1 - k, 3); el.textContent = Math.round(to * e) + suffix; if (k < 1) requestAnimationFrame(tick); };
+      requestAnimationFrame(tick);
+    }, delay);
+  };
+  const play = () => { ui.classList.add('is-live'); ui.querySelectorAll('.sh-bars em').forEach((e) => count(e, 500)); count(ui.querySelector('.sh-src-h b'), 900); };
+  if (!('IntersectionObserver' in window) || reduced()) { ui.classList.add('is-live'); return; }
+  const io = new IntersectionObserver(([e]) => { if (e.isIntersecting) { play(); io.disconnect(); } }, { threshold: 0.35 });
+  io.observe(ui);
 })();
 
 // ---------- live chat ----------

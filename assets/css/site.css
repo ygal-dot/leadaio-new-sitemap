@@ -1196,3 +1196,113 @@ legend { font-family: var(--f-title); font-size: 1.5rem; font-weight: 700; lette
   .sc > * { grid-column: 1 !important; grid-row: auto !important; }
   .sc-k { margin-top: 1rem; }
 }
+
+/* =========================================================
+   HOME: "where AI can see it" showcase (copy + live UI collage)
+   ========================================================= */
+.showcase { max-width: var(--max); margin: var(--section) auto 0; padding-inline: var(--margin); }
+.sh-top { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 1.5rem 3rem; align-items: end; margin-bottom: 2.25rem; }
+.sh-intro { display: grid; gap: 1rem; justify-items: start; }
+.sh-pill { font-size: 0.875rem; font-weight: 600; color: var(--on-gold); background: var(--gold); border-radius: 999px; padding: 0.35rem 0.85rem; }
+.sh-intro h2 { font-size: var(--t-h2); line-height: 1.02; letter-spacing: -0.022em; font-weight: 720; max-width: 22ch; }
+.sh-sub { color: var(--muted); font-size: var(--t-lead); }
+.sh-cta { border-radius: 999px; }
+
+.sh-panel { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: clamp(2rem, 4vw, 4rem); align-items: center; padding: clamp(1.75rem, 4vw, 4rem); border: 1px solid var(--rule-strong); border-radius: 20px; background: linear-gradient(160deg, #161512, var(--panel) 55%); overflow: hidden; }
+.sh-copy { display: grid; gap: 1.25rem; justify-items: start; }
+.sh-chip { font-size: 0.8125rem; font-weight: 600; border: 1px solid var(--rule-strong); border-radius: 999px; padding: 0.35rem 0.8rem; background: var(--panel-2); }
+.sh-copy h3 { font-size: clamp(1.9rem, 1.3rem + 1.8vw, 2.9rem); line-height: 1.05; letter-spacing: -0.022em; font-weight: 720; }
+.sh-copy > p:not(.sh-chip) { color: var(--muted); max-width: 52ch; }
+.sh-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 2rem; width: 100%; margin-top: 0.5rem; }
+.sh-list li { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 0.85rem; align-items: center; padding: 1rem 0; border-bottom: 1px solid var(--rule); font-size: 0.9375rem; }
+.sh-check { display: grid; place-items: center; width: 1.6rem; height: 1.6rem; border-radius: 50%; background: var(--gold); color: var(--on-gold); }
+.sh-check svg { width: 0.95rem; height: 0.95rem; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+/* the UI collage */
+[data-ui].sh-ui { position: relative; display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); grid-template-areas: "chat orb" "sov src"; gap: 1rem; align-items: start; }
+.sh-card { border: 1px solid var(--rule-strong); border-radius: 14px; background: rgba(21, 21, 19, 0.92); padding: 1.1rem; box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45); }
+.sh-chat { grid-area: chat; display: grid; gap: 0.8rem; }
+.sh-engs { display: flex; gap: 0.4rem; }
+.sh-eng { display: grid; place-items: center; width: 2rem; height: 2rem; border-radius: 50%; background: var(--ink); color: var(--bg); }
+.sh-eng svg { width: 1rem; height: 1rem; fill: currentColor; }
+.sh-eng .er-stroke { fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; }
+.sh-q { justify-self: end; max-width: 92%; font-size: 0.875rem; background: var(--panel-2); border: 1px solid var(--rule); border-radius: 12px 12px 4px 12px; padding: 0.65rem 0.8rem; }
+.sh-a { justify-self: start; max-width: 92%; background: var(--gold); color: var(--on-gold); border-radius: 12px 12px 12px 4px; padding: 0.65rem 0.8rem; font-size: 0.875rem; }
+.sh-a-h { font-weight: 600; }
+.sh-names { list-style: none; margin: 0.4rem 0 0; padding: 0; display: grid; gap: 0.2rem; counter-reset: n; }
+.sh-names li { counter-increment: n; display: flex; gap: 0.5rem; align-items: baseline; }
+.sh-names li::before { content: counter(n) "."; font-family: var(--f-data); font-size: 0.75rem; opacity: 0.7; }
+.sh-names b { font-weight: 700; }
+.sh-names span { font-family: var(--f-data); font-size: 0.6875rem; background: var(--on-gold); color: var(--gold); border-radius: 4px; padding: 0.05rem 0.35rem; }
+.sh-names i { font-style: normal; opacity: 0.75; }
+
+.sh-orb { grid-area: orb; align-self: center; justify-self: center; width: min(100%, 13rem); aspect-ratio: 1; }
+.sh-orb i { display: block; width: 100%; height: 100%; border-radius: 50%; background: radial-gradient(circle at 34% 30%, #fff1c2 0%, var(--gold-hi) 18%, var(--gold) 45%, #b8860b 78%, #5c4307 100%); box-shadow: 0 30px 60px rgba(242, 193, 78, 0.18); }
+
+.sh-sov { grid-area: sov; display: grid; gap: 0.8rem; margin-top: 1.5rem; }
+.sh-sov-top { display: flex; justify-content: space-between; align-items: center; gap: 0.75rem; font-size: 0.875rem; }
+.sh-delta { font-family: var(--f-data); font-size: 0.75rem; font-weight: 500; background: var(--gold); color: var(--on-gold); border-radius: 999px; padding: 0.15rem 0.55rem; white-space: nowrap; }
+.sh-bars { display: grid; gap: 0.6rem; }
+.sh-bars li { display: grid; grid-template-columns: 5.5rem minmax(0, 1fr) 2.6rem; gap: 0.6rem; align-items: center; font-size: 0.8125rem; }
+.sh-bars i { height: 6px; border-radius: 6px; background: var(--rule); overflow: hidden; }
+.sh-bars b { display: block; height: 100%; border-radius: 6px; background: var(--gold); transform-origin: left; transform: scaleX(var(--v)); }
+.sh-bars em { font-style: normal; font-family: var(--f-data); font-size: 0.75rem; color: var(--muted); text-align: right; font-variant-numeric: tabular-nums; }
+.sh-legend { display: flex; align-items: center; gap: 0.5rem; font-size: 0.75rem; color: var(--muted); }
+.sh-legend i { width: 0.5rem; height: 0.5rem; border-radius: 50%; background: var(--gold); }
+.sh-line { width: 100%; height: 4rem; overflow: visible; }
+.sh-line polyline { fill: none; stroke: var(--gold); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+.sh-tag { justify-self: start; }
+
+.sh-src { grid-area: src; display: grid; grid-template-columns: minmax(0, 1fr); gap: 0.6rem; min-width: 0; margin-top: -3.5rem; position: relative; z-index: 1; }
+.sh-src-h { font-size: 0.875rem; }
+.sh-src-h b { font-family: var(--f-data); font-weight: 500; color: var(--gold); font-variant-numeric: tabular-nums; }
+.sh-src ul { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0.45rem; min-width: 0; }
+.sh-src li { display: flex; align-items: center; justify-content: space-between; gap: 0.6rem; font-size: 0.75rem; background: var(--panel); border: 1px solid var(--rule); border-radius: 8px; padding: 0.55rem 0.65rem; }
+.sh-src li span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+.sh-box { flex: none; position: relative; width: 1.05rem; height: 1.05rem; border-radius: 4px; border: 1.5px solid var(--rule-strong); }
+.sh-box::after { content: ""; position: absolute; inset: -1.5px; border-radius: 4px; background: var(--gold) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 8.5l2.6 2.6L12 5.6' fill='none' stroke='%230b0a07' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 80% no-repeat; }
+.sh-src li.is-open .sh-box::after { display: none; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .sh-orb i { animation: orb-float 7s var(--ease-in-out) infinite alternate; }
+  /* the collage plays once when it scrolls into view */
+  .js .sh-ui:not(.is-live) .sh-eng { opacity: 0; transform: scale(0.6); }
+  .js .sh-ui .sh-eng { transition: opacity 400ms ease, transform 500ms var(--ease); }
+  .js .sh-ui.is-live .sh-eng:nth-child(2) { transition-delay: 60ms; } .js .sh-ui.is-live .sh-eng:nth-child(3) { transition-delay: 120ms; }
+  .js .sh-ui.is-live .sh-eng:nth-child(4) { transition-delay: 180ms; } .js .sh-ui.is-live .sh-eng:nth-child(5) { transition-delay: 240ms; }
+  .js .sh-ui .sh-q, .js .sh-ui .sh-a, .js .sh-ui .sh-names li { transition: opacity 450ms ease, transform 550ms var(--ease); }
+  .js .sh-ui:not(.is-live) .sh-q { opacity: 0; transform: translateY(8px); }
+  .js .sh-ui.is-live .sh-q { transition-delay: 350ms; }
+  .js .sh-ui:not(.is-live) .sh-a { opacity: 0; transform: translateY(8px) scale(0.97); transform-origin: left bottom; }
+  .js .sh-ui.is-live .sh-a { transition-delay: 900ms; }
+  .js .sh-ui:not(.is-live) .sh-names li { opacity: 0; transform: translateX(-6px); }
+  .js .sh-ui.is-live .sh-names li:nth-child(1) { transition-delay: 1250ms; } .js .sh-ui.is-live .sh-names li:nth-child(2) { transition-delay: 1400ms; } .js .sh-ui.is-live .sh-names li:nth-child(3) { transition-delay: 1550ms; }
+  .js .sh-ui .sh-bars b { transition: transform 1100ms var(--ease-in-out) 500ms; }
+  .js .sh-ui:not(.is-live) .sh-bars b { transform: scaleX(0); }
+  .js .sh-ui .sh-line polyline { stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 1600ms var(--ease-in-out) 900ms; }
+  .js .sh-ui.is-live .sh-line polyline { stroke-dashoffset: 0; }
+  .js .sh-ui .sh-delta { transition: opacity 300ms ease 2300ms, transform 400ms var(--ease) 2300ms; }
+  .js .sh-ui:not(.is-live) .sh-delta { opacity: 0; transform: scale(0.7); }
+  .js .sh-ui .sh-box::after { transition: opacity 250ms ease, transform 350ms var(--ease); }
+  .js .sh-ui:not(.is-live) .sh-box::after { opacity: 0; transform: scale(0.4); }
+  .js .sh-ui.is-live .sh-src li:nth-child(1) .sh-box::after { transition-delay: 1200ms; }
+  .js .sh-ui.is-live .sh-src li:nth-child(2) .sh-box::after { transition-delay: 1550ms; }
+  .js .sh-ui.is-live .sh-src li:nth-child(3) .sh-box::after { transition-delay: 1900ms; }
+}
+@keyframes orb-float { from { transform: translateY(-6px); } to { transform: translateY(8px); } }
+@media (hover: hover) and (pointer: fine) {
+  .sh-card { transition: transform 260ms var(--ease), border-color 200ms ease; }
+  .sh-card:hover { transform: translateY(-3px); border-color: var(--gold); }
+}
+@media (max-width: 1100px) {
+  .sh-panel { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 760px) {
+  .sh-top { grid-template-columns: minmax(0, 1fr); }
+  .sh-cta { justify-self: start; }
+  .sh-list { grid-template-columns: minmax(0, 1fr); }
+  [data-ui].sh-ui { grid-template-columns: minmax(0, 1fr); grid-template-areas: "chat" "sov" "src"; }
+  .sh-orb { display: none; }
+  .sh-sov, .sh-src { margin-top: 0; }
+  .sh-panel { border-radius: 14px; }
+}
