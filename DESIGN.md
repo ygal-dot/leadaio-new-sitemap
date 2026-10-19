@@ -1,136 +1,129 @@
 ---
 name: LeadAIO
-description: The AI answer map. Black plot field, gold data.
+description: Mission control for a brand's launch into AI answers. Black console, gold flight path.
 colors:
-  bg: "#08080a"
-  panel: "#0f0f12"
-  panel-2: "#16161b"
-  ink: "#eceae4"
-  muted: "#a7a399"
-  dim: "#8b877d"
-  gold: "#d4af37"
-  gold-hi: "#e9c75b"
-  on-gold: "#0b0a08"
-  rival: "#8d897f"
+  bg: "#090909"
+  panel: "#0e0e0d"
+  panel-2: "#151513"
+  rule: "#3a3220"
+  rule-strong: "#5a4a28"
+  ink: "#f4f1ea"
+  muted: "#a8a59e"
+  dim: "#8c887f"
+  gold: "#f2c14e"
+  gold-hi: "#f7d27a"
+  on-gold: "#0b0a07"
+  live: "#5fd38a"
 typography:
   display:
-    fontFamily: "Archivo, system-ui, sans-serif"
-    fontSize: "clamp(2.5rem, 1.4rem + 3.6vw, 4.6rem)"
-    fontWeight: 700
-    lineHeight: 1.02
-    letterSpacing: "-0.03em"
+    fontFamily: "Bricolage Grotesque, Archivo, system-ui, sans-serif"
+    fontSize: "clamp(2.6rem, 1.5rem + 3.4vw, 4.6rem)"
+    fontWeight: 720
+    lineHeight: 1
+    letterSpacing: "-0.022em"
   heading:
-    fontFamily: "Archivo, system-ui, sans-serif"
-    fontSize: "clamp(2rem, 1.3rem + 2.6vw, 3.5rem)"
-    fontWeight: 650
-    lineHeight: 1.05
-    letterSpacing: "-0.025em"
-  lead:
-    fontFamily: "Archivo, system-ui, sans-serif"
-    fontSize: "clamp(1.125rem, 1.02rem + 0.45vw, 1.375rem)"
-    fontWeight: 400
-    lineHeight: 1.45
+    fontFamily: "Bricolage Grotesque, Archivo, system-ui, sans-serif"
+    fontSize: "clamp(2rem, 1.3rem + 2.4vw, 3.4rem)"
+    fontWeight: 720
+    lineHeight: 1.02
+    letterSpacing: "-0.022em"
   body:
     fontFamily: "Archivo, system-ui, sans-serif"
     fontSize: "clamp(1rem, 0.96rem + 0.2vw, 1.125rem)"
     fontWeight: 400
     lineHeight: 1.55
+  small:
+    fontFamily: "Archivo, system-ui, sans-serif"
+    fontSize: "0.875rem"
+    fontWeight: 400
+    lineHeight: 1.5
   data:
     fontFamily: "JetBrains Mono, ui-monospace, monospace"
-    fontSize: "0.875rem"
+    fontSize: "0.8125rem"
     fontWeight: 400
     lineHeight: 1.4
 rounded:
-  none: "0px"
-  dot: "50%"
+  tag: "4px"
+  control: "6px"
+  panel: "8px"
+  pill: "999px"
 spacing:
-  margin: "clamp(1rem, 3vw, 3rem)"
+  margin: "clamp(1rem, 2.4vw, 2.5rem)"
   section: "clamp(6rem, 11vw, 10rem)"
-  panel: "1rem"
 components:
   button-primary:
     backgroundColor: "{colors.gold}"
     textColor: "{colors.on-gold}"
-    rounded: "{rounded.none}"
-    padding: "0 1.4rem"
-    height: "3rem"
+    rounded: "{rounded.control}"
+    padding: "0 1.5rem"
+    height: "3.25rem"
   button-primary-hover:
     backgroundColor: "{colors.gold-hi}"
-  button-line:
-    backgroundColor: "{colors.bg}"
-    textColor: "{colors.ink}"
-    rounded: "{rounded.none}"
-    padding: "0 1.4rem"
-    height: "3rem"
-  switch-on:
-    backgroundColor: "{colors.panel}"
+  tag:
     textColor: "{colors.gold}"
-    rounded: "{rounded.none}"
-    height: "2.25rem"
+    rounded: "{rounded.tag}"
+    padding: "0.2rem 0.55rem"
+  tab-selected:
+    backgroundColor: "{colors.gold}"
+    textColor: "{colors.on-gold}"
+    rounded: "{rounded.pill}"
 ---
 
 # Design System: LeadAIO
 
 ## Overview
 
-LeadAIO's site is an instrument, not a brochure. The page is built on the 2x2 market map every B2B marketer knows from analyst reports: one axis for how often AI names a brand, one for how often it cites sources about the brand. The visitor's dot starts bottom-left and travels to the top-right as placements switch on. Everything else on the page reads as the same instrument: thin measurement lines, coordinates in tabular figures, square panels, and gold reserved for the brand's own data and the action.
+The site is a mission-control console for a brand's launch into AI answers. The first screen is one bracketed console: a faint plotting grid, a gold flight path that climbs from Unknown past Reddit threads, review sites and best-of lists to the orbit Named first, and a telemetry strip of per-engine values below it. Every later section is another console panel: mission stages, a live answer feed, source routing, telemetry, contact. Gold always means the brand's own trajectory, live values or the action.
+
+Approved comp: `.impeccable/mocks/comp-1.png` (first viewport); section reference `.impeccable/mocks/comp-3.png`.
 
 ## Colors
 
 ### Primary
-- **Gold** `#d4af37`: the brand's dot, its trail, positive positions, and the primary action. Never decoration. Hover is `#e9c75b`.
+- **Flight gold** `#f2c14e`: the flight path, the brand marker and orbit, live values, tabs and the action. Hover `#f7d27a`.
 
 ### Neutral
-- **Plot black** `#08080a` is the page ground; **panel** `#0f0f12` and **panel-2** `#16161b` step surfaces up.
-- **Ink** `#eceae4` for text, **muted** `#a7a399` for secondary text, **dim** `#8b877d` for axis labels and captions (passes 4.5:1 on both grounds).
-- **Rival grey** `#8d897f` draws other brands as hollow points.
+- **Console black** `#090909` ground; **panel** `#0e0e0d` and **panel-2** `#151513` for raised surfaces.
+- **Instrument rules** `#3a3220` (quiet) and `#5a4a28` (frames, corner brackets, dividers): dark gold, never grey.
+- **Ink** `#f4f1ea`, **muted** `#a8a59e`, **dim** `#8c887f`.
+- **Live** `#5fd38a`: the one status light on the answer feed. Static, never pulsing.
 
 ### Named Rules
-- **The data rule:** gold marks what belongs to the visitor's brand. Rivals, grids and chrome stay in the neutrals.
-- **The sample rule:** any synthetic figure carries a visible "Example data" or "Example account" tag in gold outline.
+- **The trajectory rule:** gold is the brand's path and the action. Rivals, grids and frames stay in the dark-gold rules.
+- **The sample rule:** every synthetic figure carries an "Example data" tag; demo answers use the placeholder "Your brand", never a real company.
 
 ## Typography
 
-Archivo is the one voice, with its width axis: display and headings at `font-stretch: 112%`, body at 100%. JetBrains Mono is used only for data: coordinates, percentages, counts, the map tags.
-
-### Hierarchy
-- Display (h1), heading (h2), lead, body, small (0.875rem), data.
-- Headings stay at two or three lines; body measure 34 to 68ch.
+Bricolage Grotesque (user's choice) for titles and the wordmark, Archivo for running text, JetBrains Mono for navigation, coordinates, labels and every number.
 
 ## Layout
 
-A 88rem max frame with fluid side margins. Sections are separated by `clamp(6rem, 11vw, 10rem)`. Each section has its own composition: hero split 38/62 (copy, live map), sources split 5/7, a full-width evaluation table, a panel-ground monitoring band, a three-stop path, a FAQ list, contact channels, footer.
+A 96rem frame. The hero console is 34rem tall at desktop so the telemetry strip and the top of Mission stages sit inside the first viewport, as in the comp. Panels separate by `clamp(6rem, 11vw, 10rem)`. On phones the flight path becomes its own 22rem block under the headline.
 
 ## Elevation & Depth
 
-No shadows. Depth is a tone step (bg to panel to panel-2) and 1px instrument lines at 13% and 28% ink.
+No shadows except the soft gold halo around the brand marker. Depth is the console frame, corner brackets and the panel tone step.
 
 ## Shapes
 
-Square corners everywhere. Circles are reserved for data points and switch indicators.
+Small radii only: 4px tags, 6px controls and cards, 8px interface panels, pills for engine tabs. Circles are data: waypoints (hollow rings that light gold as the marker passes), the marker, the orbit.
 
 ## Components
 
-### Buttons
-Primary: gold fill, black text, square, 3rem tall. Secondary: 1px line, ink text, turns gold on hover.
-
-### Switches
-Placement toggles are `aria-pressed` buttons with a ring indicator that fills gold when on.
-
-### Map (signature component)
-SVG plot with a 10-unit grid, dashed gold midlines, quadrant names, hollow rival points, a gold "your brand" dot with a pinging ring, dashed trail and crosshair, a legend, a switchboard and a five-cell readout. Marked `data-ui`.
-
-### Tables
-The programs evaluation table and the dashboard prompt table use 1px row rules; the dashboard table scrolls inside its panel on phones.
+- **Console:** bracketed frame with four corner marks and a faint grid; holds the flight path.
+- **Flight path:** SVG path drawn up to the marker each frame; waypoint labels are buttons that fly the marker to their stage and update telemetry; "Replay launch".
+- **Telemetry strip:** label cell plus five mono readouts with dividers.
+- **Answer feed:** prompt field, engine tabs, answer with the brand in gold, three sources.
+- **Source routing:** five program cards wired to the LeadAIO hub and out to four engines, with gold flow on the wires.
 
 ## Do's and Don'ts
 
 ### Do:
-- Show the mechanism with data (example data labelled as such).
-- Keep gold for the brand's data and the action.
-- Use mono only for numbers and measurements.
+- Keep gold for the brand's trajectory, live values and the action.
+- Use mono for every number and coordinate.
+- Label all demo figures "Example data".
 
 ### Don't:
-- Add eyebrows or kickers above headings.
-- Add shadows, glows, gradients or glass.
-- Present sample logos, rivals or figures as real.
+- Add eyebrows, glows, planets, stars or pulsing dots.
+- Show real company names in demo answers.
+- Use grey for instrument lines; they are dark gold.
