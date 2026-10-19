@@ -1,3 +1,6 @@
 .taste-skill/inspect/
 .taste-skill/scenes/
 .DS_Store
+.impeccable/review/
+.impeccable/questions/
+.impeccable/config.local.json

@@ -1,0 +1,117 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-19T00:49:37.650025Z",
+  "title": "Design System: LeadAIO",
+  "extensions": {
+    "colorMeta": {
+      "gold": {
+        "role": "primary",
+        "displayName": "Signal Gold"
+      },
+      "bg": {
+        "role": "neutral",
+        "displayName": "Plot Black"
+      },
+      "panel": {
+        "role": "neutral",
+        "displayName": "Panel"
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink"
+      },
+      "rival": {
+        "role": "neutral",
+        "displayName": "Rival Grey"
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Hero headline, Archivo at 112% width."
+      },
+      "data": {
+        "displayName": "Data",
+        "purpose": "Coordinates, percentages and counts only."
+      }
+    },
+    "shadows": [],
+    "motion": [
+      {
+        "name": "ease-instrument",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "The dot's travel, bar fills and line draws."
+      },
+      {
+        "name": "ping",
+        "value": "2.6s",
+        "purpose": "The ring around the brand's dot."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "stack",
+        "value": "1100px"
+      },
+      {
+        "name": "phone",
+        "value": "720px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The one action: book a call.",
+      "html": "<a class=\"ds-btn\">Book a strategy call</a>",
+      "css": ".ds-btn{display:inline-flex;align-items:center;min-height:3rem;padding:0 1.4rem;background:#d4af37;color:#0b0a08;font:600 0.9375rem Archivo,system-ui,sans-serif;text-decoration:none}.ds-btn:hover{background:#e9c75b}"
+    },
+    {
+      "name": "Placement Switch",
+      "kind": "chip",
+      "refersTo": "switch-on",
+      "description": "Toggles a placement on the map.",
+      "html": "<button class=\"ds-sw\" aria-pressed=\"true\">Reddit threads</button>",
+      "css": ".ds-sw{position:relative;min-height:2.25rem;padding:0 .8rem 0 1.85rem;border:1px solid #d4af37;background:rgba(212,175,55,.14);color:#d4af37;font:500 .8125rem Archivo,system-ui,sans-serif}.ds-sw::before{content:'';position:absolute;left:.7rem;top:50%;width:.6rem;height:.6rem;margin-top:-.3rem;border-radius:50%;background:#d4af37}"
+    },
+    {
+      "name": "Example Tag",
+      "kind": "chip",
+      "description": "Marks synthetic data.",
+      "html": "<span class=\"ds-tag\">Example data</span>",
+      "css": ".ds-tag{font:.75rem 'JetBrains Mono',monospace;color:#d4af37;border:1px solid rgba(212,175,55,.45);padding:.1rem .45rem}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The AI answer map",
+    "overview": "An instrument built on the analyst 2x2: the brand's gold dot travels to the top-right as placements land.",
+    "keyCharacteristics": [
+      "Black plot field",
+      "Gold is data",
+      "Square instrument panels",
+      "Archivo with width axis, mono for numbers"
+    ],
+    "rules": [
+      {
+        "name": "The data rule",
+        "body": "Gold marks the visitor's brand and the action; everything else is neutral.",
+        "section": "colors"
+      },
+      {
+        "name": "The sample rule",
+        "body": "Synthetic figures always carry an Example tag.",
+        "section": "colors"
+      }
+    ],
+    "dos": [
+      "Show the mechanism with labelled example data",
+      "Use mono only for numbers"
+    ],
+    "donts": [
+      "No eyebrows, shadows, gradients or glass",
+      "Never present samples as real"
+    ]
+  }
+}
