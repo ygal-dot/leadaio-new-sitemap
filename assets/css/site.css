@@ -1348,16 +1348,16 @@ legend { font-family: var(--f-title); font-size: 1.5rem; font-weight: 700; lette
 .st-n { font-family: var(--f-title); font-weight: 220; font-stretch: 85%; font-size: clamp(4.5rem, 2.6rem + 6vw, 8.5rem); line-height: 0.9; letter-spacing: -0.04em; color: var(--ink); font-variant-numeric: tabular-nums; white-space: nowrap; }
 .st-n span { color: var(--gold); }
 .st-l { font-size: clamp(1.15rem, 1rem + 0.5vw, 1.45rem); line-height: 1.38; font-weight: 500; max-width: 22ch; }
-.st-l mark { color: var(--on-gold); background-color: transparent; background-image: linear-gradient(var(--gold), var(--gold)); background-repeat: no-repeat; background-size: 100% 100%; padding: 0.12em 0.25em; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+.st-l mark { color: var(--ink); background: none; padding: 0; }
 .st-s { font-family: var(--f-data); font-size: 0.75rem; color: var(--dim); }
 .st-s a { color: var(--muted); text-underline-offset: 0.2em; }
 .st-s a:hover { color: var(--gold); }
 @media (prefers-reduced-motion: no-preference) {
-  /* gold rule draws, then the highlighter sweeps across the label */
+  /* gold rule draws, the number counts up, then the label rises in */
   .js .st:not(.is-live)::after { transform: scaleX(0); }
   .js .st::after { transition: transform 900ms var(--ease-in-out) calc(var(--k, 0) * 150ms); }
-  .js .st .st-l mark { transition: background-size 900ms var(--ease-in-out) calc(700ms + var(--k, 0) * 150ms), color 300ms ease calc(800ms + var(--k, 0) * 150ms); }
-  .js .st:not(.is-live) .st-l mark { background-size: 0% 100%; color: var(--ink); }
+  .js .st .st-l { transition: opacity 700ms ease calc(600ms + var(--k, 0) * 150ms), transform 800ms var(--ease) calc(600ms + var(--k, 0) * 150ms); }
+  .js .st:not(.is-live) .st-l { opacity: 0; transform: translateY(10px); }
   .js .st .st-n, .js .st .st-s { transition: opacity 600ms ease, transform 800ms var(--ease); transition-delay: calc(var(--k, 0) * 150ms); }
   .js .st:not(.is-live) .st-n { opacity: 0; transform: translateY(14px); }
   .js .st:not(.is-live) .st-s { opacity: 0; }
