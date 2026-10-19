@@ -969,3 +969,62 @@ legend { font-family: var(--f-title); font-size: 1.5rem; font-weight: 700; lette
   .launch { justify-self: center; max-width: 24rem; margin-top: 0.5rem; }
 }
 .nowrap { white-space: nowrap; }
+
+/* =========================================================
+   HOME: case studies (demo customers)
+   ========================================================= */
+.cases { max-width: var(--max); margin: var(--section) auto 0; padding-inline: var(--margin); }
+.cases-head { display: grid; grid-template-columns: auto 1fr; gap: 1rem 3rem; align-items: end; margin-bottom: 2.25rem; }
+.cases-head h2 { font-size: var(--t-h2); line-height: 1.02; letter-spacing: -0.022em; font-weight: 720; }
+.cases-head p { color: var(--muted); max-width: 54ch; justify-self: end; }
+.cases-head .note { display: block; margin-top: 0.5rem; }
+.cases-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: 1rem; row-gap: 0; }
+.cs { display: grid; grid-row: span 7; grid-template-rows: subgrid; gap: 1rem; padding: 1.5rem; border: 1px solid var(--rule-strong); border-radius: 8px; background: var(--panel); transition: border-color 200ms ease, transform 220ms var(--ease); }
+.cs-top { display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+.cs-logo { color: var(--ink); text-align: left; }
+.cs-cat { font-family: var(--f-data); font-size: 0.75rem; color: var(--dim); letter-spacing: 0.04em; text-transform: uppercase; }
+.cs h3 { font-size: 1.5rem; line-height: 1.12; letter-spacing: -0.02em; }
+.cs-metric { align-self: end; }
+.cs-metric p:first-child { font-family: var(--f-data); color: var(--gold); line-height: 1; font-variant-numeric: tabular-nums; }
+.cs-metric b { font-size: clamp(2.75rem, 2rem + 2vw, 3.75rem); font-weight: 500; letter-spacing: -0.03em; }
+.cs-metric span { margin-left: 0.4rem; font-size: 1.125rem; color: var(--muted); }
+.cs-sub { margin-top: 0.4rem; font-size: 0.875rem; color: var(--muted); }
+.cs-spark { width: 100%; height: auto; overflow: visible; }
+.cs-spark .sp-base { stroke: var(--rule); stroke-width: 1; vector-effect: non-scaling-stroke; }
+.cs-spark .sp-area { fill: url(#sp-fade); }
+.cs-spark .sp-line { fill: none; stroke: var(--gold); stroke-width: 1.5; stroke-linejoin: round; stroke-linecap: round; }
+.cs-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-block: 1px solid var(--rule); }
+.cs-stats > div { padding: 0.8rem 0.75rem 0.8rem 0; }
+.cs-stats > div + div { padding-left: 0.75rem; border-left: 1px solid var(--rule); }
+.cs-stats dt { font-family: var(--f-data); font-size: 0.6875rem; color: var(--dim); letter-spacing: 0.06em; text-transform: uppercase; }
+.cs-stats dd { margin: 0.3rem 0 0; font-family: var(--f-data); font-size: 0.9375rem; color: var(--ink); }
+.cs-moved { font-size: 0.875rem; color: var(--muted); }
+.cs-moved span { display: block; margin-bottom: 0.3rem; font-family: var(--f-data); font-size: 0.6875rem; color: var(--gold); letter-spacing: 0.06em; text-transform: uppercase; }
+@media (hover: hover) and (pointer: fine) {
+  .cs:hover { border-color: var(--gold); transform: translateY(-3px); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .js .cs .sp-line { stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 1400ms var(--ease-in-out) 250ms; }
+  .js .cs .sp-area { opacity: 0; transition: opacity 800ms ease 1100ms; }
+  .js .cs .sp-end { opacity: 0; transform-box: fill-box; transform-origin: center; transform: scale(0.4); transition: opacity 300ms ease 1500ms, transform 400ms var(--ease) 1500ms; }
+  .js .cs.is-live .sp-line { stroke-dashoffset: 0; }
+  .js .cs.is-live .sp-area { opacity: 1; }
+  .js .cs.is-live .sp-end { opacity: 1; transform: none; }
+}
+@media (max-width: 1100px) {
+  .cases-head { grid-template-columns: minmax(0, 1fr); }
+  .cases-head p { justify-self: start; }
+  .cases-grid { grid-template-columns: minmax(0, 1fr); row-gap: 1rem; }
+  .cs { grid-row: auto; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); grid-template-rows: none; column-gap: 2rem; }
+  .cs > .cs-top, .cs > .cs-cat, .cs > h3 { grid-column: 1; }
+  .cs > .cs-metric { grid-column: 2; grid-row: 1 / span 2; }
+  .cs > .cs-spark { grid-column: 2; grid-row: 3; align-self: end; }
+  .cs > .cs-stats, .cs > .cs-moved { grid-column: 1 / -1; }
+}
+@media (max-width: 760px) {
+  .cases-grid { grid-auto-flow: column; grid-auto-columns: 86%; grid-template-columns: none; gap: 0.75rem; overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-x: contain; scrollbar-width: none; margin-inline: calc(-1 * var(--margin)); padding-inline: var(--margin); scroll-padding-inline: var(--margin); }
+  .cases-grid::-webkit-scrollbar { display: none; }
+  .cs { scroll-snap-align: start; grid-template-columns: minmax(0, 1fr); padding: 1.25rem; }
+  .cs > * { grid-column: 1 !important; grid-row: auto !important; }
+  .cs h3 { font-size: 1.3rem; }
+}

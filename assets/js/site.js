@@ -241,7 +241,7 @@ addEventListener('load', toTop);
 
 // ---------- reveal once on entering the viewport ----------
 (() => {
-  const groups = ['.panel-head', '.stage', '.feed-copy', '.feed', '.r-sources li', '.r-hub', '.r-engines li', '.tele-copy', '.tele', '.ch', '.shift', '.rules li', '.never-list li', '.cover > div', '.agenda li', '.briefing', '.msg-copy', '.msg-form', '.mini-faq', '.about-why h2', '.never-copy', '.chips li', '.field', '.book legend', '.form-end', '.foot-in > *', '.foot-legal', '.contact-head', '.cta-row', '.agenda h2', '.versus-head', '.vt-row', '.programs-detail > h2', '.pd', '.case-steps li', '.case-meter', '.prompts-head', '.prompt-bar', '.prompt-list li', '.fit-col h2', '.fit-list li', '.monthly li', '.monthly-cta'];
+  const groups = ['.panel-head', '.stage', '.feed-copy', '.feed', '.r-sources li', '.r-hub', '.r-engines li', '.tele-copy', '.tele', '.ch', '.shift', '.rules li', '.never-list li', '.cover > div', '.agenda li', '.briefing', '.msg-copy', '.msg-form', '.mini-faq', '.about-why h2', '.never-copy', '.chips li', '.field', '.book legend', '.form-end', '.foot-in > *', '.foot-legal', '.contact-head', '.cta-row', '.agenda h2', '.versus-head', '.vt-row', '.programs-detail > h2', '.pd', '.case-steps li', '.case-meter', '.prompts-head', '.prompt-bar', '.prompt-list li', '.fit-col h2', '.fit-list li', '.monthly li', '.monthly-cta', '.cases-head', '.cs'];
   const targets = [];
   for (const sel of groups) document.querySelectorAll(sel).forEach((n, i) => { n.classList.add('reveal'); n.style.setProperty('--i', i); targets.push(n); });
   // these only flip a state (track fill, corner brackets, table rows); they don't fade as a block
@@ -531,7 +531,7 @@ addEventListener('load', toTop);
 
 // ---------- phones: swipe rows show where you are ----------
 (() => {
-  document.querySelectorAll('.stages, .monthly').forEach((row) => {
+  document.querySelectorAll('.stages, .monthly, .cases-grid').forEach((row) => {
     const items = [...row.children];
     const hint = document.createElement('p');
     hint.className = 'swipe-hint'; hint.setAttribute('aria-hidden', 'true');
@@ -602,6 +602,40 @@ addEventListener('load', toTop);
     if (e.isIntersecting && !running) { later(300, cycle); running = true; }
     else if (!e.isIntersecting && running) { stop(); place(0); set(); status.textContent = 'Ready on the pad'; }
   }, { threshold: 0.35 }).observe(scene);
+})();
+
+// ---------- case studies: sparklines draw and the headline number counts up ----------
+(() => {
+  const cards = document.querySelectorAll('.cs');
+  if (!cards.length) return;
+  const NS = 'http://www.w3.org/2000/svg';
+  const mk = (tag, attrs, parent) => { const n = document.createElementNS(NS, tag); for (const k in attrs) n.setAttribute(k, attrs[k]); parent.appendChild(n); return n; };
+  // one shared gradient for the area fills
+  const defs = mk('svg', { width: 0, height: 0, 'aria-hidden': 'true', style: 'position:absolute' }, document.body);
+  const g = mk('linearGradient', { id: 'sp-fade', x1: 0, y1: 0, x2: 0, y2: 1 }, mk('defs', {}, defs));
+  mk('stop', { offset: '0', 'stop-color': '#f2c14e', 'stop-opacity': '0.22' }, g);
+  mk('stop', { offset: '1', 'stop-color': '#f2c14e', 'stop-opacity': '0' }, g);
+  cards.forEach((card) => {
+    const svg = card.querySelector('.cs-spark');
+    const d = svg.dataset.series.split(',').map(Number);
+    const W = 240, H = 56, max = 40 * 0.55, x = (i) => (i / (d.length - 1)) * W, y = (v) => H - 4 - (v / max) * (H - 10);
+    const pts = d.map((v, i) => `${x(i).toFixed(1)},${y(v).toFixed(1)}`);
+    mk('line', { class: 'sp-base', x1: 0, y1: H - 4, x2: W, y2: H - 4 }, svg);
+    mk('path', { class: 'sp-area', d: `M0,${H - 4} L${pts.join(' L')} L${W},${H - 4} Z` }, svg);
+    mk('path', { class: 'sp-line', d: `M${pts.join(' L')}`, pathLength: 1 }, svg);
+    mk('circle', { class: 'sp-end', cx: x(d.length - 1), cy: y(d[d.length - 1]), r: 3.5, fill: '#f2c14e' }, svg);
+  });
+  const count = (b) => {
+    const from = +b.dataset.from, to = +b.dataset.to;
+    if (reduced()) { b.textContent = to; return; }
+    const t0 = performance.now(), dur = 1400;
+    const tick = (now) => { const k = Math.min(1, (now - t0) / dur), e = 1 - Math.pow(1 - k, 3); b.textContent = Math.round(from + (to - from) * e); if (k < 1) requestAnimationFrame(tick); };
+    b.textContent = from; requestAnimationFrame(tick);
+  };
+  const live = (card) => { if (card.classList.contains('is-live')) return; card.classList.add('is-live'); count(card.querySelector('.cs-metric b')); };
+  if (!('IntersectionObserver' in window) || reduced()) { cards.forEach(live); return; }
+  const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { live(e.target); io.unobserve(e.target); } }), { threshold: 0.4 });
+  cards.forEach((c) => io.observe(c));
 })();
 
 // ---------- live chat ----------
