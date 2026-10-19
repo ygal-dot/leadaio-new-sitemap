@@ -252,7 +252,7 @@ addEventListener('load', toTop);
 
 // ---------- reveal once on entering the viewport ----------
 (() => {
-  const groups = ['.panel-head', '.stage', '.feed-copy', '.feed', '.r-sources li', '.r-hub', '.r-engines li', '.tele-copy', '.tele', '.ch', '.shift', '.rules li', '.never-list li', '.cover > div', '.agenda li', '.briefing', '.msg-copy', '.msg-form', '.mini-faq', '.about-why h2', '.never-copy', '.chips li', '.field', '.book legend', '.form-end', '.foot-in > *', '.foot-legal', '.contact-head', '.cta-row', '.agenda h2', '.versus-head', '.vt-row', '.programs-detail > h2', '.pd', '.case-steps li', '.case-meter', '.prompts-head', '.prompt-bar', '.prompt-list li', '.fit-col h2', '.fit-list li', '.monthly li', '.monthly-cta', '.cases-head', '.cs', '.sourced-head', '.sc', '.vz-intro', '.vz-aside', '.vz-copy > :not(.vz-caps)', '.vz-caps li', '.vz-read'];
+  const groups = ['.panel-head', '.stage', '.feed-copy', '.feed', '.r-sources li', '.r-hub', '.r-engines li', '.tele-copy', '.tele', '.ch', '.shift', '.rules li', '.never-list li', '.cover > div', '.agenda li', '.briefing', '.msg-copy', '.msg-form', '.mini-faq', '.about-why h2', '.never-copy', '.chips li', '.field', '.book legend', '.form-end', '.foot-in > *', '.foot-legal', '.contact-head', '.cta-row', '.agenda h2', '.versus-head', '.vt-row', '.programs-detail > h2', '.pd', '.case-steps li', '.case-meter', '.prompts-head', '.prompt-bar', '.prompt-list li', '.fit-col h2', '.fit-list li', '.monthly li', '.monthly-cta', '.cases-head', '.cs', '.sourced-head', '.sc', '.vz-intro', '.vz-aside', '.vz-copy > :not(.vz-caps)', '.vz-caps li', '.vz-read', '.win-copy > *'];
   const targets = [];
   for (const sel of groups) document.querySelectorAll(sel).forEach((n, i) => { n.classList.add('reveal'); n.style.setProperty('--i', i); targets.push(n); });
   // these only flip a state (track fill, corner brackets, table rows); they don't fade as a block
@@ -677,6 +677,23 @@ addEventListener('load', toTop);
     if (visible) { raf = requestAnimationFrame(angle); if (!played) { played = true; radar.classList.add('is-live'); read.querySelectorAll('b[data-to]').forEach(count); } }
     else cancelAnimationFrame(raf);
   }, { threshold: 0.2 }).observe(radar);
+})();
+
+// ---------- testimonials: two columns drift in opposite directions while in view ----------
+(() => {
+  const wall = document.querySelector('.win-wall');
+  if (!wall) return;
+  const cols = [...wall.querySelectorAll('.win-col')];
+  // on phones only the first column shows, so it also carries the second column's quotes
+  if (matchMedia('(max-width: 760px)').matches && cols[1]) {
+    [...cols[1].children].forEach((li) => { const c = li.cloneNode(true); c.classList.add('tq-extra'); cols[0].appendChild(c); });
+  }
+  if (reduced()) return;
+  cols.forEach((col) => {
+    [...col.children].forEach((li) => { const c = li.cloneNode(true); c.setAttribute('aria-hidden', 'true'); col.appendChild(c); });
+    col.classList.add('is-loop');
+  });
+  if ('IntersectionObserver' in window) new IntersectionObserver(([e]) => wall.classList.toggle('is-paused', !e.isIntersecting)).observe(wall);
 })();
 
 // ---------- live chat ----------

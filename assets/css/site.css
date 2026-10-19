@@ -1294,3 +1294,44 @@ legend { font-family: var(--f-title); font-size: 1.5rem; font-weight: 700; lette
   .vz-read > div { padding: 0 1rem; }
 }
 .gold { color: var(--gold); }
+
+/* =========================================================
+   HOME: testimonials wall (demo quotes)
+   ========================================================= */
+.winning { max-width: var(--max); margin: var(--section) auto 0; padding-inline: var(--margin); display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(2rem, 5vw, 5rem); align-items: center; }
+.win-copy { display: grid; gap: 1.5rem; justify-items: start; }
+.win-copy h2 { font-size: var(--t-h2); line-height: 1.02; letter-spacing: -0.022em; font-weight: 720; max-width: 12ch; }
+.win-copy > p:not(.note) { color: var(--muted); font-size: var(--t-lead); line-height: 1.5; max-width: 40ch; }
+.win-wall { position: relative; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; height: clamp(34rem, 60vw, 42rem); overflow: hidden; -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 14%, #000 86%, transparent 100%); mask-image: linear-gradient(180deg, transparent 0%, #000 14%, #000 86%, transparent 100%); }
+.win-col { display: grid; gap: 1rem; align-content: start; }
+.tq figure { margin: 0; display: grid; gap: 1rem; padding: 1.6rem; border: 1px solid var(--rule-strong); border-radius: 12px; background: var(--panel); transition: border-color 200ms ease; }
+.tq-stars { display: flex; gap: 0.3rem; color: var(--gold); }
+.tq-stars svg { width: 1.15rem; height: 1.15rem; fill: currentColor; }
+.tq blockquote { margin: 0; font-size: 1.0625rem; line-height: 1.5; color: var(--ink); }
+.tq figcaption { font-family: var(--f-data); font-size: 0.8125rem; color: var(--muted); }
+.tq figcaption span { color: var(--dim); }
+@media (hover: hover) and (pointer: fine) {
+  .tq figure:hover { border-color: var(--gold); }
+  .win-wall:hover .win-col { animation-play-state: paused; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  /* each column scrolls forever: the list is doubled in script, so -50% lands on the same frame */
+  .win-col.is-loop { animation: win-up 46s linear infinite; }
+  .win-col--down.is-loop { animation: win-down 52s linear infinite; }
+  .win-wall.is-paused .win-col { animation-play-state: paused; }
+}
+@keyframes win-up { from { transform: translateY(0); } to { transform: translateY(calc(-50% - 0.5rem)); } }
+@keyframes win-down { from { transform: translateY(calc(-50% - 0.5rem)); } to { transform: translateY(0); } }
+@media (prefers-reduced-motion: reduce) {
+  .win-wall { height: auto; -webkit-mask-image: none; mask-image: none; }
+}
+@media (max-width: 1100px) {
+  .winning { grid-template-columns: minmax(0, 1fr); }
+  .win-copy h2 { max-width: none; }
+}
+@media (max-width: 760px) {
+  /* phones: one column of cards, still drifting */
+  .win-wall { grid-template-columns: minmax(0, 1fr); height: 34rem; }
+  .win-col--down { display: none; }
+  .win-col .tq-extra { display: block; }
+}

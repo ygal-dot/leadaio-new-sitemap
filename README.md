@@ -28,6 +28,7 @@ Home (`index.html`):
 7. **Inside each program:** tabs (arrow keys work) with what we do, what you get and what you approve.
 8. **An example mission:** a sample payroll company week by week; the meter follows the week you are reading.
 9. **Telemetry:** share of prompts per engine over 12 weeks.
+9c. **Our clients are winning:** heading, text and a Start growing button beside two columns of sample testimonial cards that drift in opposite directions (pause on hover, one column on phones).
 9b. **Case studies:** three demo customers (Paylark, Ledgerly, Opsmint) with before/after prompts named, a weekly trend line and what moved it. Swipe row on phones.
 10. **The prompts we track:** sample buyer prompts, filterable by intent.
 11. **Who it is for / not the right fit.**
@@ -43,6 +44,7 @@ Design system: `DESIGN.md`. Product brief: `PRODUCT.md`. Approved mockups: `.imp
 ## Before launch
 
 - **Example data.** The hero flight path and telemetry strip are no longer tagged (by request); the footer note still covers them. The answer feed, chart, example mission and sample prompts are labelled as examples. Swap in real (anonymised) numbers when you have them.
+- **Testimonials.** "Our clients are winning" shows eight sample quotes, attributed to roles only and marked (demo). Replace them with real, approved quotes before launch.
 - **Case studies.** The three customers are fictional demo brands with example figures. Replace them with real, approved case studies before launch.
 - **AI engine logos.** The hero row uses the ChatGPT (OpenAI), Claude, Perplexity and Gemini marks from Simple Icons (CC0 vectors; the marks remain their owners' trademarks). The Grok mark is a simple stand-in drawn for this site: swap in the official file from xAI before launch.
 - **Sample logos.** The eight logos are fictional placeholders for the demo. Replace them with real client logos you have permission to show, or remove the strip.
