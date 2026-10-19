@@ -232,11 +232,11 @@ const reduced = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 // ---------- reveal once on entering the viewport ----------
 (() => {
-  const groups = ['.panel-head', '.stage', '.feed-copy', '.feed', '.r-sources li', '.r-hub', '.r-engines li', '.tele-copy', '.tele', '.ch', '.shift', '.rules li', '.never-list li', '.cover > div', '.agenda li', '.briefing', '.msg-copy', '.msg-form', '.mini-faq', '.about-why h2', '.never-copy', '.chips li', '.field', '.book legend', '.form-end', '.foot-in > *', '.foot-legal', '.contact-head', '.cta-row', '.agenda h2'];
+  const groups = ['.panel-head', '.stage', '.feed-copy', '.feed', '.r-sources li', '.r-hub', '.r-engines li', '.tele-copy', '.tele', '.ch', '.shift', '.rules li', '.never-list li', '.cover > div', '.agenda li', '.briefing', '.msg-copy', '.msg-form', '.mini-faq', '.about-why h2', '.never-copy', '.chips li', '.field', '.book legend', '.form-end', '.foot-in > *', '.foot-legal', '.contact-head', '.cta-row', '.agenda h2', '.versus-head', '.vt-row', '.programs-detail > h2', '.pd', '.case-steps li', '.case-meter', '.prompts-head', '.prompt-bar', '.prompt-list li', '.fit-col h2', '.fit-list li', '.monthly li', '.monthly-cta'];
   const targets = [];
   for (const sel of groups) document.querySelectorAll(sel).forEach((n, i) => { n.classList.add('reveal'); n.style.setProperty('--i', i); targets.push(n); });
   // these only flip a state (track fill, corner brackets, table rows); they don't fade as a block
-  document.querySelectorAll('.stages, .console--small, .agenda').forEach((n) => targets.push(n));
+  document.querySelectorAll('.stages, .console--small, .agenda, .versus-table').forEach((n) => targets.push(n));
   document.querySelectorAll('.tele-table tbody tr').forEach((r, i) => r.style.setProperty('--ri', i));
   // once an entrance has played, drop its delay so hover feedback is instant
   targets.forEach((t) => t.addEventListener('transitionend', (e) => {
@@ -414,6 +414,110 @@ const reduced = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
   form.addEventListener('change', sync);
   ['name', 'company', 'category', 'rivals'].forEach((k) => out(k).classList.add('is-empty'));
   sync();
+})();
+
+// ---------- program deep-dive: tabs with a sliding gold indicator ----------
+(() => {
+  const list = document.querySelector('.pd-tabs');
+  if (!list) return;
+  const tabs = [...list.querySelectorAll('[role="tab"]')];
+  const ind = document.createElement('span');
+  ind.className = 'pd-ind'; ind.setAttribute('aria-hidden', 'true');
+  list.appendChild(ind);
+  const place = () => {
+    const t = tabs.find((b) => b.getAttribute('aria-selected') === 'true');
+
+
+    ind.style.cssText = `--y:${t.offsetTop}px;--h:${t.offsetHeight};--x:${t.offsetLeft}px;--w:${t.offsetWidth}`;
+  };
+  const select = (t, focus) => {
+    tabs.forEach((b) => {
+      const on = b === t;
+      b.setAttribute('aria-selected', on); b.tabIndex = on ? 0 : -1;
+      const panel = document.getElementById(b.getAttribute('aria-controls'));
+      if (on && panel.hidden) { panel.hidden = false; panel.classList.remove('is-enter'); void panel.offsetWidth; panel.classList.add('is-enter'); }
+      else if (!on) panel.hidden = true;
+    });
+    if (focus) t.focus();
+    if (list.scrollWidth > list.clientWidth) list.scrollTo({ left: t.offsetLeft - 16, behavior: reduced() ? 'auto' : 'smooth' });
+    place();
+  };
+  tabs.forEach((t) => t.addEventListener('click', () => select(t)));
+  list.addEventListener('keydown', (e) => {
+    const i = tabs.indexOf(document.activeElement);
+    if (i < 0) return;
+    const k = { ArrowDown: 1, ArrowRight: 1, ArrowUp: -1, ArrowLeft: -1 }[e.key];
+    let n = null;
+    if (k) n = (i + k + tabs.length) % tabs.length; else if (e.key === 'Home') n = 0; else if (e.key === 'End') n = tabs.length - 1;
+    if (n === null) return;
+    e.preventDefault(); select(tabs[n], true);
+  });
+  document.querySelectorAll('.pd-panel').forEach((p) => p.addEventListener('animationend', (e) => { if (e.target === p) p.classList.remove('is-enter'); }));
+  place();
+  addEventListener('resize', place);
+  if (document.fonts) document.fonts.ready.then(place);
+})();
+
+// ---------- example mission: the meter follows the week you are reading ----------
+(() => {
+  const steps = [...document.querySelectorAll('.case-steps li')];
+  const nEl = document.getElementById('cm-n');
+  if (!steps.length || !nEl) return;
+  const bars = document.getElementById('cm-bars'), week = document.getElementById('cm-week'), track = document.querySelector('.case-steps');
+  // example data: prompts named (of 40) and named first, by week
+  const DATA = { 1: [2, 0], 3: [4, 0], 6: [7, 2], 9: [11, 4], 12: [16, 7] };
+  const cells = Array.from({ length: 40 }, (_, k) => { const c = document.createElement('i'); c.style.setProperty('--k', k); bars.appendChild(c); return c; });
+  let cur = 0, active = null, raf = 0;
+  const count = (to) => {
+    cancelAnimationFrame(raf);
+    const from = cur, t0 = performance.now(), dur = reduced() ? 0 : 600;
+    const tick = (now) => {
+      const p = dur ? Math.min(1, (now - t0) / dur) : 1;
+      const v = Math.round(from + (to - from) * (1 - Math.pow(1 - p, 3)));
+      nEl.textContent = v;
+      if (p < 1) raf = requestAnimationFrame(tick); else cur = to;
+    };
+    raf = requestAnimationFrame(tick);
+  };
+  const activate = (li) => {
+    if (li === active) return;
+    active = li;
+    const w = +li.dataset.w, [named, first] = DATA[w], idx = steps.indexOf(li);
+    steps.forEach((s, j) => { s.classList.toggle('is-on', j === idx); s.classList.toggle('is-past', j < idx); });
+    track.style.setProperty('--p', steps.length > 1 ? idx / (steps.length - 1) : 1);
+    cells.forEach((c, k) => { c.classList.toggle('is-on', k < named); c.classList.toggle('is-first', k < first); });
+    week.textContent = `Week ${w}${first ? ` · first on ${first}` : ''}`;
+    nEl.classList.remove('is-tick'); void nEl.offsetWidth; if (!reduced()) nEl.classList.add('is-tick');
+    count(named);
+  };
+  steps.forEach((li) => li.addEventListener('click', () => activate(li)));
+  activate(steps[0]);
+  if (!('IntersectionObserver' in window)) return;
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) if (e.isIntersecting) activate(e.target);
+  }, { rootMargin: '-45% 0px -45% 0px' });
+  steps.forEach((li) => io.observe(li));
+})();
+
+// ---------- prompts we track: filter by intent ----------
+(() => {
+  const btns = [...document.querySelectorAll('.prompt-filter button')];
+  if (!btns.length) return;
+  const items = [...document.querySelectorAll('.prompt-list li')];
+  const out = document.getElementById('prompt-count');
+  btns.forEach((b) => b.addEventListener('click', () => {
+    const f = b.dataset.intent;
+    btns.forEach((x) => x.setAttribute('aria-pressed', x === b));
+    let k = 0;
+    items.forEach((li) => {
+      const show = f === 'all' || li.dataset.intent === f;
+      li.hidden = !show;
+      li.classList.remove('is-pop');
+      if (show) { void li.offsetWidth; li.style.setProperty('--k', k++); li.classList.add('is-pop'); }
+    });
+    if (out) out.textContent = `${k} of ${items.length} prompts`;
+  }));
+  items.forEach((li) => li.addEventListener('animationend', () => li.classList.remove('is-pop')));
 })();
 
 // ---------- live chat ----------
