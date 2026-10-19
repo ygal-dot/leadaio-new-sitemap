@@ -19,6 +19,7 @@ Home (`index.html`):
 
 1. **Hero console:** "Launch your brand into AI answers." A gold flight path climbs from Unknown past Reddit threads, review sites and best-of lists to Named first, with a telemetry strip. Waypoints are clickable; "Replay launch" replays it.
 2. **Sample logos** (marquee).
+2b. **Be where AI knowledge is sourced:** three pillars (Distribution, Discoverability, Perception) as a dark card, a gold-framed card and a solid gold card, with line icons that draw in.
 3. **Mission stages:** audit, placement plan, placements live, telemetry review.
 4. **SEO vs AIO:** a five-row comparison table.
 5. **Live answer feed:** a sample AI answer that names "Your brand" first, with its sources, per engine.

@@ -1077,7 +1077,7 @@ legend { font-family: var(--f-title); font-size: 1.5rem; font-weight: 700; lette
 .bg-streams { --bg-img: url("../img/bg-streams.jpg"); --pf-pos: center 78%; }
 .bg-fiber { --bg-img: url("../img/bg-fiber.jpg"); --pf-pos: center bottom; }
 /* zero-height anchor between the content and the footer; the image reaches up behind the content */
-.pre-foot { position: relative; height: 0; pointer-events: none; }
+.pre-foot { position: relative; height: 0; pointer-events: none; overflow-x: clip; }
 .pre-foot i { position: absolute; z-index: -1; left: 0; right: 0; bottom: calc(-1 * var(--section)); height: clamp(32rem, 58vw, 48rem); background: var(--bg-img) var(--pf-pos, center) / cover no-repeat; opacity: 0.6; transform-origin: center bottom; -webkit-mask-image: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.5) 30%, #000 60%); mask-image: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.5) 30%, #000 60%); }
 @media (max-width: 760px) {
   .pre-foot i { height: 34rem; opacity: 0.5; }
@@ -1141,4 +1141,64 @@ legend { font-family: var(--f-title); font-size: 1.5rem; font-weight: 700; lette
 }
 @media (min-width: 1101px) and (max-width: 1280px) {
   .wp--named button { left: auto; right: 44px; top: -84px; text-align: right; }
+}
+
+/* =========================================================
+   HOME: be where AI knowledge is sourced (three pillars)
+   ========================================================= */
+.sourced { max-width: var(--max); margin: var(--section) auto 0; padding-inline: var(--margin); }
+.sourced-head { display: grid; gap: 1rem; margin-bottom: 2.25rem; max-width: 64rem; }
+.sourced-head h2 { font-size: var(--t-h2); line-height: 1.02; letter-spacing: -0.022em; font-weight: 720; }
+.sourced-head p { color: var(--muted); max-width: 62ch; font-size: var(--t-lead); line-height: 1.5; }
+.sourced-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
+.sc { position: relative; display: grid; align-content: start; gap: 0.75rem; min-height: 21rem; padding: clamp(1.5rem, 2.4vw, 2rem); border-radius: 12px; border: 1px solid var(--rule-strong); background: var(--panel); transition: transform 240ms var(--ease), border-color 200ms ease, background-color 200ms ease; }
+.sc h3 { font-size: clamp(1.6rem, 1.2rem + 1vw, 2.1rem); line-height: 1.05; letter-spacing: -0.022em; font-weight: 720; max-width: 12ch; margin-bottom: 0.75rem; min-height: 2.1em; }
+.sc p:last-child { color: var(--muted); max-width: 38ch; }
+.sc-k { font-family: var(--f-data); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold); margin-top: 1.75rem; }
+.sc-ic { display: grid; place-items: center; width: 3.25rem; height: 3.25rem; border-radius: 50%; background: var(--gold); color: var(--on-gold); }
+.sc-ic svg { width: 1.6rem; height: 1.6rem; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; overflow: visible; }
+.sc-spark { fill: currentColor; stroke: none; transform-box: fill-box; transform-origin: center; }
+/* the middle card: dark, framed in gold */
+.sc--framed { border-color: var(--gold); background: var(--panel-2); }
+.sc--framed .sc-ic { background: var(--ink); color: var(--bg); }
+/* the last card: solid gold */
+.sc--gold { background: var(--gold); border-color: var(--gold); color: var(--on-gold); }
+.sc--gold .sc-k { color: var(--on-gold); opacity: 0.75; }
+.sc--gold p:last-child { color: rgba(11, 10, 7, 0.78); }
+.sc--gold .sc-ic { background: var(--on-gold); color: var(--gold); }
+@media (hover: hover) and (pointer: fine) {
+  .sc:hover { transform: translateY(-4px); }
+  .sc--dark:hover { border-color: var(--gold); }
+  .sc--gold:hover { background: var(--gold-hi); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  /* icons come alive when the card arrives */
+  .js .sc .sc-draw { stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 900ms var(--ease-in-out) 350ms; }
+  .js .sc.is-in .sc-draw { stroke-dashoffset: 0; }
+  .js .sc .sc-spark { opacity: 0; transform: scale(0.3); transition: opacity 400ms ease, transform 600ms var(--ease); }
+  .js .sc.is-in .sc-spark { opacity: 1; transform: none; }
+  .js .sc.is-in .s1 { transition-delay: 350ms; }
+  .js .sc.is-in .s2 { transition-delay: 500ms; }
+  .js .sc.is-in .s3 { transition-delay: 650ms; }
+  /* sparkles keep twinkling */
+  .sc .s2 { animation: twinkle 2.8s var(--ease-in-out) 1.6s infinite; }
+  .sc .s3 { animation: twinkle 2.8s var(--ease-in-out) 2.3s infinite; }
+  @media (hover: hover) and (pointer: fine) {
+    .sc-star { transform-box: fill-box; transform-origin: center; transition: transform 500ms var(--ease); }
+    .sc:hover .sc-star { transform: rotate(72deg); }
+  }
+}
+@keyframes twinkle { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(0.55); opacity: 0.55; } }
+@media (max-width: 1000px) {
+  .sourced-grid { grid-template-columns: minmax(0, 1fr); }
+  .sc { min-height: 0; grid-template-columns: auto minmax(0, 1fr); column-gap: 1.25rem; }
+  .sc > :not(.sc-ic) { grid-column: 2; }
+  .sc-ic { grid-row: 1 / span 4; }
+  .sc-k { margin-top: 0.2rem; }
+  .sc h3 { max-width: none; min-height: 0; }
+}
+@media (max-width: 520px) {
+  .sc { grid-template-columns: minmax(0, 1fr); }
+  .sc > * { grid-column: 1 !important; grid-row: auto !important; }
+  .sc-k { margin-top: 1rem; }
 }
