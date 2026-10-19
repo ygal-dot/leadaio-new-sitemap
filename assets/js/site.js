@@ -232,11 +232,11 @@ const reduced = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 // ---------- reveal once on entering the viewport ----------
 (() => {
-  const groups = ['.panel-head', '.stage', '.feed-copy', '.feed', '.r-sources li', '.r-hub', '.r-engines li', '.tele-copy', '.tele', '.ch', '.shift', '.rules li', '.never-list li', '.cover > div', '.agenda li', '.briefing', '.msg-copy', '.msg-form', '.mini-faq', '.about-why h2', '.never-copy'];
+  const groups = ['.panel-head', '.stage', '.feed-copy', '.feed', '.r-sources li', '.r-hub', '.r-engines li', '.tele-copy', '.tele', '.ch', '.shift', '.rules li', '.never-list li', '.cover > div', '.agenda li', '.briefing', '.msg-copy', '.msg-form', '.mini-faq', '.about-why h2', '.never-copy', '.chips li', '.field', '.book legend', '.form-end', '.foot-in > *', '.foot-legal', '.contact-head', '.cta-row', '.agenda h2'];
   const targets = [];
   for (const sel of groups) document.querySelectorAll(sel).forEach((n, i) => { n.classList.add('reveal'); n.style.setProperty('--i', i); targets.push(n); });
   // these only flip a state (track fill, corner brackets, table rows); they don't fade as a block
-  document.querySelectorAll('.stages, .console--small').forEach((n) => targets.push(n));
+  document.querySelectorAll('.stages, .console--small, .agenda').forEach((n) => targets.push(n));
   document.querySelectorAll('.tele-table tbody tr').forEach((r, i) => r.style.setProperty('--ri', i));
   // once an entrance has played, drop its delay so hover feedback is instant
   targets.forEach((t) => t.addEventListener('transitionend', (e) => {
@@ -254,7 +254,7 @@ const reduced = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 // ---------- hero headline: each word rises from behind its own mask ----------
 (() => {
-  const h = document.querySelector('.hero h1');
+  const h = document.querySelector('.hero h1, .page-hero h1');
   if (!h) return;
   const label = h.textContent.replace(/\s+/g, ' ').trim();
   h.setAttribute('aria-label', label);
