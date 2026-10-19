@@ -13,8 +13,19 @@ const reduced = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
 if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
 let touched = false;
 ['wheel', 'touchstart', 'keydown', 'pointerdown'].forEach((t) => addEventListener(t, () => { touched = true; }, { once: true, passive: true }));
-const toTop = () => { if (!location.hash && !touched) window.scrollTo(0, 0); };
+const toTop = () => {
+  if (location.hash || touched) return;
+  window.scrollTo(0, 0);
+  // inside a frame (the claude.ai preview), also bring the frame's top into view in the page around it
+  if (window.top !== window) {
+    const html = document.documentElement, pad = html.style.scrollPaddingTop;
+    html.style.scrollPaddingTop = '0px'; // the header offset is for in-page anchors, not for this
+    try { html.scrollIntoView({ block: 'start', behavior: 'instant' }); } catch (e) { /* not allowed: ignore */ }
+    html.style.scrollPaddingTop = pad;
+  }
+};
 toTop();
+document.addEventListener('DOMContentLoaded', toTop);
 addEventListener('pageshow', toTop);
 addEventListener('load', toTop);
 
