@@ -36,7 +36,8 @@
   --margin: clamp(1rem, 2.4vw, 2.5rem);
   --max: 96rem;
   --gap: clamp(1.5rem, 3vw, 2.5rem);
-  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease: cubic-bezier(0.23, 1, 0.32, 1);        /* strong ease-out: entrances, feedback */
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1); /* on-screen movement */
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -330,3 +331,138 @@ p { text-wrap: pretty; }
 }
 @keyframes ping { 0% { transform: scale(0.8); opacity: 0.8; } 80%, 100% { transform: scale(2.2); opacity: 0; } }
 @keyframes flow { to { stroke-dashoffset: -14; } }
+
+/* =========================================================
+   MOTION LAYER
+   Load sequence, cursor telemetry, answer streaming, routing pulses,
+   stage track, marquee, FAQ, hover feedback, scroll progress.
+   transform / opacity / clip-path only. Reduced motion keeps fades.
+   ========================================================= */
+
+/* scroll progress along the top bar */
+.bar { position: sticky; }
+.bar::after { content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: var(--gold); transform-origin: left; transform: scaleX(0); }
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .bar::after { animation: progress linear both; animation-timeline: scroll(root); }
+  }
+}
+@keyframes progress { to { transform: scaleX(1); } }
+
+/* nav link underline grows from the left */
+.bar-nav a { position: relative; }
+.bar-nav a::after { content: ""; position: absolute; left: 0; right: 0; bottom: -4px; height: 1px; background: var(--gold); transform: scaleX(0); transform-origin: left; transition: transform 220ms var(--ease); }
+@media (hover: hover) and (pointer: fine) {
+  .bar-nav a:hover::after { transform: scaleX(1); }
+  .stage:hover, .ch:hover, .r-sources li:hover, .r-engines li:hover { transform: translateY(-3px); }
+  .wp:hover::before { transform: scale(1.25); }
+  .lg:hover { transform: translateY(-2px); }
+}
+.stage, .ch, .r-sources li, .r-engines li { transition: border-color 200ms ease, background-color 200ms ease, transform 220ms var(--ease); }
+.lg { transition: color 200ms ease, transform 200ms var(--ease); }
+.replay:active, .feed-tabs button:active, .wp button:active { transform: scale(0.96); }
+.replay, [data-ui] .feed-tabs button, .wp button { transition: color 160ms ease, background-color 160ms ease, transform 140ms var(--ease); }
+.replay svg { transition: transform 500ms var(--ease); }
+@media (hover: hover) and (pointer: fine) { .replay:hover svg { transform: rotate(-200deg); } }
+
+/* cursor telemetry in the console (fine pointers only) */
+.xhair { position: absolute; inset: 0; pointer-events: none; z-index: 1; opacity: 0; transition: opacity 240ms ease; overflow: hidden; }
+.console.is-tracking .xhair { opacity: 1; }
+.xhair i { position: absolute; left: 0; top: 0; background: rgba(242, 193, 78, 0.28); will-change: transform; }
+.xhair .xh { width: 100%; height: 1px; }
+.xhair .xv { width: 1px; height: 100%; }
+.xhair .xl { position: absolute; left: 0; top: 0; font-family: var(--f-data); font-size: 0.6875rem; color: var(--gold); background: var(--bg); padding: 0.1rem 0.35rem; border: 1px solid var(--rule-strong); border-radius: 3px; white-space: nowrap; will-change: transform; }
+
+/* stage track */
+.stages { position: relative; padding-top: 2rem; }
+.stages::before, .stages::after { content: ""; position: absolute; left: 0; right: 0; top: 0.5rem; height: 2px; border-radius: 2px; }
+.stages::before { background: var(--rule); }
+.stages::after { background: var(--gold); transform-origin: left; transform: scaleX(var(--track, 1)); transition: transform 1600ms var(--ease-in-out); }
+.stage { position: relative; }
+.stage::before { content: ""; position: absolute; top: calc(-2rem + 0.5rem - 5px); left: 1.4rem; width: 12px; height: 12px; border-radius: 50%; background: var(--bg); border: 2px solid var(--gold); }
+
+/* answer feed: streaming caret and thinking dots */
+[data-ui] .caret { display: inline-block; width: 0.5em; height: 1.05em; margin-left: 2px; vertical-align: -0.15em; background: var(--gold); }
+[data-ui] .thinking { display: inline-flex; gap: 5px; align-items: center; height: 1.4em; }
+[data-ui] .thinking i { width: 6px; height: 6px; border-radius: 50%; background: var(--muted); }
+[data-ui] .feed-sources li { transition: opacity 400ms var(--ease), transform 500ms var(--ease); }
+[data-ui] .feed-sources.is-hidden li { opacity: 0; transform: translateX(-10px); }
+
+/* routing pulses */
+.r-wires .pulse { fill: var(--gold); }
+
+/* sample logo marquee */
+.logo-viewport { overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
+.logo-row.is-marquee { display: flex; width: max-content; gap: 4.5rem; }
+.logo-row.is-marquee .lg { flex: none; }
+
+/* FAQ height: animate open and close where supported */
+@supports (interpolate-size: allow-keywords) {
+  :root { interpolate-size: allow-keywords; }
+  .faq details::details-content { block-size: 0; overflow: clip; transition: block-size 260ms var(--ease), content-visibility 260ms allow-discrete; }
+  .faq details[open]::details-content { block-size: auto; }
+}
+.faq details p { transition: opacity 260ms ease, transform 300ms var(--ease); }
+.faq details:not([open]) p { opacity: 0; transform: translateY(-6px); }
+
+@media (prefers-reduced-motion: no-preference) {
+  /* load sequence */
+  .js .bar-in > * { opacity: 0; transform: translateY(-8px); animation: drop-in 600ms var(--ease) forwards; }
+  .js .bar-in > :nth-child(2) { animation-delay: 80ms; }
+  .js .bar-in > :nth-child(3) { animation-delay: 160ms; }
+  .js .hero .corner { opacity: 0; animation: corner-in 700ms var(--ease) 200ms forwards; }
+  .js .hero .corner--tl { --cx: 18px; --cy: 18px; } .js .hero .corner--tr { --cx: -18px; --cy: 18px; }
+  .js .hero .corner--bl { --cx: 18px; --cy: -18px; } .js .hero .corner--br { --cx: -18px; --cy: -18px; }
+  .js #flight-grid, .js .baseline, .js #flight-ticks { opacity: 0; animation: fade-in 1200ms ease 300ms forwards; }
+  .js .hero h1 .w { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: 0.1em; margin-bottom: -0.1em; }
+  .js .hero h1 .w > span { display: inline-block; transform: translateY(105%); animation: rise 900ms var(--ease) forwards; animation-delay: calc(250ms + var(--wi) * 55ms); }
+  .js .hero-sub { opacity: 0; transform: translateY(12px); animation: drop-in 800ms var(--ease) 700ms forwards; }
+  .js .hero-copy .btn { opacity: 0; transform: translateY(12px) scale(0.97); animation: drop-in 700ms var(--ease) 850ms forwards; }
+  .js .tag--hero, .js .replay { opacity: 0; animation: fade-in 600ms ease 1000ms forwards; }
+  .js .wp button { opacity: 0; transform: translateY(6px); transition: opacity 400ms var(--ease), transform 500ms var(--ease), background-color 160ms ease; }
+  .js .wp.is-lit button, .js .wp.was-lit button { opacity: 1; transform: none; }
+  .js .telemetry > div { opacity: 0; transform: translateY(14px); animation: drop-in 700ms var(--ease) forwards; animation-delay: calc(900ms + var(--ti) * 70ms); }
+
+  /* orbit drifts */
+  .orbit .o3 { animation: orbit 18s linear infinite; }
+  .orbit .o1 { animation: breathe 4s var(--ease-in-out) infinite alternate; }
+
+  /* stage track fills when the stages enter */
+  .js .stages:not(.is-in) { --track: 0; }
+  .js .stages .stage::before { transform: scale(0.6); opacity: 0; transition: transform 400ms var(--ease), opacity 400ms ease; transition-delay: calc(300ms + var(--i, 0) * 380ms); }
+  .js .stages.is-in .stage::before { transform: none; opacity: 1; }
+
+  [data-ui] .caret { animation: caret 1s steps(1) infinite; }
+  [data-ui] .thinking i { animation: think 1s var(--ease-in-out) infinite; }
+  [data-ui] .thinking i:nth-child(2) { animation-delay: 150ms; }
+  [data-ui] .thinking i:nth-child(3) { animation-delay: 300ms; }
+  [data-ui] .feed-sources li:nth-child(2) { transition-delay: 90ms; }
+  [data-ui] .feed-sources li:nth-child(3) { transition-delay: 180ms; }
+
+  .logo-row.is-marquee { animation: marquee 40s linear infinite; }
+  .logo-viewport:hover .logo-row.is-marquee { animation-play-state: paused; }
+
+  .js .console--small .corner { opacity: 0; transition: opacity 600ms ease, transform 700ms var(--ease); }
+  .js .console--small.is-in .corner { opacity: 1; transform: none; }
+  .js .console--small .corner--tl { transform: translate(18px, 18px); } .js .console--small .corner--tr { transform: translate(-18px, 18px); }
+  .js .console--small .corner--bl { transform: translate(18px, -18px); } .js .console--small .corner--br { transform: translate(-18px, -18px); }
+
+  .js .tele-table tbody tr { opacity: 0; transform: translateY(8px); transition: opacity 500ms var(--ease), transform 600ms var(--ease); transition-delay: calc(900ms + var(--ri) * 90ms); }
+  .js .tele.is-in .tele-table tbody tr { opacity: 1; transform: none; }
+  .js .tele circle { opacity: 0; transition: opacity 300ms ease 1500ms; }
+  .js .tele.is-in circle { opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .js .hero-sub, .js .hero-copy .btn { animation: fade-in 400ms ease forwards; opacity: 0; }
+  .js .reveal { transition: opacity 400ms ease !important; transform: none !important; }
+  .stages::after { transition: none; }
+}
+@keyframes drop-in { to { opacity: 1; transform: none; } }
+@keyframes fade-in { to { opacity: 1; } }
+@keyframes rise { to { transform: none; } }
+@keyframes corner-in { from { opacity: 0; transform: translate(var(--cx), var(--cy)); } to { opacity: 1; transform: none; } }
+@keyframes orbit { from { transform: rotate(-12deg); } to { transform: rotate(348deg); } }
+@keyframes breathe { from { transform: scale(0.94); } to { transform: scale(1.06); } }
+@keyframes caret { 50% { opacity: 0; } }
+@keyframes think { 0%, 100% { transform: translateY(0); opacity: 0.4; } 50% { transform: translateY(-4px); opacity: 1; } }
+@keyframes marquee { to { transform: translateX(-50%); } }

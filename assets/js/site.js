@@ -116,11 +116,51 @@ const reduced = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
     'Popular payroll tools for startups include <mark>Your brand</mark>, often recommended on review sites and in best-of lists for ease of setup.',
   ];
   const tabs = [...document.querySelectorAll('.feed-tabs [data-engine]')];
+  const p = box.querySelector('p');
+  const q = document.querySelector('.feed-q');
+  const qText = q.lastChild; // the prompt's text node, after its icon
+  const PROMPT = qText.textContent;
+  const sources = document.querySelector('.feed-sources');
+  const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+  let run = 0; // bumping this cancels any stream in progress (interruptible)
+
+  // stream an answer word by word, the way an assistant writes it
+  async function stream(html, withPrompt) {
+    const id = ++run;
+    if (reduced()) { qText.textContent = PROMPT; p.innerHTML = html; sources.classList.remove('is-hidden'); return; }
+    sources.classList.add('is-hidden');
+    if (withPrompt) {
+      qText.textContent = '';
+      for (let i = 1; i <= PROMPT.length; i++) { if (id !== run) return; qText.textContent = PROMPT.slice(0, i); await wait(32); }
+      await wait(250);
+    }
+    p.innerHTML = '<span class="thinking" aria-hidden="true"><i></i><i></i><i></i></span>';
+    await wait(700);
+    if (id !== run) return;
+    const tokens = html.match(/<mark>.*?<\/mark>|\S+/g) || [];
+    let out = '';
+    for (const t of tokens) {
+      if (id !== run) return;
+      out += (out ? ' ' : '') + t;
+      p.innerHTML = out + '<span class="caret" aria-hidden="true"></span>';
+      await wait(t.startsWith('<mark>') ? 140 : 42);
+    }
+    p.innerHTML = out;
+    sources.classList.remove('is-hidden');
+  }
+
   tabs.forEach((tab) => tab.addEventListener('click', () => {
     tabs.forEach((t) => t.setAttribute('aria-selected', String(t === tab)));
-    box.classList.add('is-swap');
-    setTimeout(() => { box.querySelector('p').innerHTML = ANSWERS[+tab.dataset.engine]; box.classList.remove('is-swap'); }, reduced() ? 0 : 200);
+    stream(ANSWERS[+tab.dataset.engine], false);
   }));
+
+  // the first answer streams once, when the feed scrolls into view
+  if ('IntersectionObserver' in window && !reduced()) {
+    const io = new IntersectionObserver((entries) => {
+      if (entries.some((e) => e.isIntersecting)) { io.disconnect(); stream(ANSWERS[0], true); }
+    }, { threshold: 0.45 });
+    io.observe(box.closest('.feed'));
+  }
 })();
 
 // ---------- routing wires ----------
@@ -139,8 +179,19 @@ const reduced = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
     const hl = [h.left - o.left, h.top - o.top + h.height / 2];
     const hr = [h.right - o.left, h.top - o.top + h.height / 2];
     const curve = (a, b) => { const mx = (a[0] + b[0]) / 2; return `M${a[0]},${a[1]} C${mx},${a[1]} ${mx},${b[1]} ${b[0]},${b[1]}`; };
-    for (const s of sources) { const r = s.getBoundingClientRect(); const a = [r.right - o.left, r.top - o.top + r.height / 2]; el('path', { d: curve(a, hl) }, svg); el('path', { d: curve(a, hl), class: 'flow' }, svg); }
-    for (const e of engines) { const r = e.getBoundingClientRect(); const b = [r.left - o.left, r.top - o.top + r.height / 2]; el('path', { d: curve(hr, b) }, svg); el('path', { d: curve(hr, b), class: 'flow' }, svg); }
+    const wires = [];
+    for (const s of sources) { const r = s.getBoundingClientRect(); wires.push(curve([r.right - o.left, r.top - o.top + r.height / 2], hl)); }
+    for (const e of engines) { const r = e.getBoundingClientRect(); wires.push(curve(hr, [r.left - o.left, r.top - o.top + r.height / 2])); }
+    wires.forEach((d, i) => {
+      el('path', { d, id: `wire-${i}` }, svg);
+      el('path', { d, class: 'flow' }, svg);
+      if (reduced()) return;
+      // a pulse travels each wire: sources first, then out to the engines
+      const dot = el('circle', { r: 3.5, class: 'pulse' }, svg);
+      const am = el('animateMotion', { dur: '2.2s', repeatCount: 'indefinite', begin: `${(i % 5) * 0.35 + (i >= sources.length ? 1.1 : 0)}s`, keyPoints: '0;1', keyTimes: '0;1', calcMode: 'spline', keySplines: '0.77 0 0.175 1' }, dot);
+      const mp = el('mpath', {}, am);
+      mp.setAttribute('href', `#wire-${i}`);
+    });
   }
   draw();
   new ResizeObserver(draw).observe(core.parentElement);
@@ -184,6 +235,13 @@ const reduced = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
   const groups = ['.panel-head', '.stage', '.feed-copy', '.feed', '.r-sources li', '.r-hub', '.r-engines li', '.tele-copy', '.tele', '.ch'];
   const targets = [];
   for (const sel of groups) document.querySelectorAll(sel).forEach((n, i) => { n.classList.add('reveal'); n.style.setProperty('--i', i); targets.push(n); });
+  // these only flip a state (track fill, corner brackets, table rows); they don't fade as a block
+  document.querySelectorAll('.stages, .console--small').forEach((n) => targets.push(n));
+  document.querySelectorAll('.tele-table tbody tr').forEach((r, i) => r.style.setProperty('--ri', i));
+  // once an entrance has played, drop its delay so hover feedback is instant
+  targets.forEach((t) => t.addEventListener('transitionend', (e) => {
+    if (e.target === t && e.propertyName === 'transform' && t.classList.contains('is-in')) { t.classList.remove('reveal'); t.style.removeProperty('--i'); }
+  }));
   if (!('IntersectionObserver' in window)) { targets.forEach((t) => t.classList.add('is-in')); return; }
   const io = new IntersectionObserver((entries) => {
     for (const e of entries) if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); }
@@ -192,6 +250,74 @@ const reduced = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
   window.addEventListener('load', () => setTimeout(() => targets.forEach((t) => {
     const r = t.getBoundingClientRect(); if (r.top < innerHeight && r.bottom > 0) t.classList.add('is-in');
   }), 2000));
+})();
+
+// ---------- hero headline: each word rises from behind its own mask ----------
+(() => {
+  const h = document.querySelector('.hero h1');
+  if (!h) return;
+  const label = h.textContent.replace(/\s+/g, ' ').trim();
+  h.setAttribute('aria-label', label);
+  let wi = 0;
+  const words = [];
+  for (const node of [...h.childNodes]) {
+    const text = node.textContent;
+    for (const part of text.split(/([ \t\n]+)/)) {
+      if (!part) continue;
+      if (/^[ \t\n]+$/.test(part)) { words.push(document.createTextNode(' ')); continue; }
+      const w = document.createElement('span'); w.className = 'w'; w.setAttribute('aria-hidden', 'true');
+      const inner = document.createElement('span'); inner.textContent = part.replace(/ /g, ' '); inner.style.setProperty('--wi', wi++);
+      w.appendChild(inner); words.push(w);
+    }
+  }
+  h.textContent = '';
+  words.forEach((w) => h.appendChild(w));
+  document.querySelectorAll('.telemetry > div').forEach((d, i) => d.style.setProperty('--ti', i));
+})();
+
+// ---------- cursor telemetry: a crosshair with live coordinates over the console ----------
+(() => {
+  const consoleEl = document.querySelector('.hero .console');
+  if (!consoleEl || !matchMedia('(hover: hover) and (pointer: fine)').matches || reduced()) return;
+  const wrap = document.createElement('div');
+  wrap.className = 'xhair'; wrap.setAttribute('aria-hidden', 'true');
+  wrap.innerHTML = '<i class="xh"></i><i class="xv"></i><span class="xl"></span>';
+  consoleEl.prepend(wrap);
+  const [xh, xv] = wrap.querySelectorAll('i');
+  const xl = wrap.querySelector('.xl');
+  let tx = 0, ty = 0, cx = 0, cy = 0, raf = 0, rect = consoleEl.getBoundingClientRect();
+  const tick = () => {
+    // a light follow: the crosshair trails the pointer instead of snapping to it
+    cx += (tx - cx) * 0.22; cy += (ty - cy) * 0.22;
+    xh.style.transform = `translate3d(0, ${cy}px, 0)`;
+    xv.style.transform = `translate3d(${cx}px, 0, 0)`;
+    xl.style.transform = `translate3d(${Math.min(cx + 12, rect.width - 150)}px, ${Math.max(cy - 28, 4)}px, 0)`;
+    xl.textContent = `${(cx / rect.width * 100).toFixed(4)}° · ${((1 - cy / rect.height) * 100).toFixed(4)}°`;
+    if (Math.abs(tx - cx) > 0.3 || Math.abs(ty - cy) > 0.3) raf = requestAnimationFrame(tick); else raf = 0;
+  };
+  consoleEl.addEventListener('pointerenter', (e) => {
+    rect = consoleEl.getBoundingClientRect();
+    cx = tx = e.clientX - rect.left; cy = ty = e.clientY - rect.top;
+    consoleEl.classList.add('is-tracking'); tick();
+  });
+  consoleEl.addEventListener('pointermove', (e) => {
+    tx = e.clientX - rect.left; ty = e.clientY - rect.top;
+    if (!raf) raf = requestAnimationFrame(tick);
+  });
+  consoleEl.addEventListener('pointerleave', () => consoleEl.classList.remove('is-tracking'));
+  addEventListener('scroll', () => { rect = consoleEl.getBoundingClientRect(); }, { passive: true });
+})();
+
+// ---------- sample logos: a slow marquee (the copy is hidden from assistive tech) ----------
+(() => {
+  const row = document.querySelector('.logo-row');
+  if (!row || reduced()) return;
+  const vp = document.createElement('div');
+  vp.className = 'logo-viewport';
+  row.parentNode.insertBefore(vp, row);
+  vp.appendChild(row);
+  [...row.children].forEach((li) => { const c = li.cloneNode(true); c.setAttribute('aria-hidden', 'true'); row.appendChild(c); });
+  row.classList.add('is-marquee');
 })();
 
 // ---------- live chat ----------
