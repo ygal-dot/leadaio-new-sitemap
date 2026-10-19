@@ -34,8 +34,8 @@
   --t-h1: clamp(2.6rem, 1.5rem + 3.4vw, 4.6rem);
 
   --margin: clamp(1rem, 2.4vw, 2.5rem);
-  --section: clamp(6rem, 11vw, 10rem);
-  --section-sm: clamp(5rem, 9vw, 8rem);
+  --section: clamp(4rem, 6.5vw, 5.5rem); /* the one gap between every section */
+  --section-sm: var(--section);
   --max: 96rem;
   --gap: clamp(1.5rem, 3vw, 2.5rem);
   --ease: cubic-bezier(0.23, 1, 0.32, 1);        /* strong ease-out: entrances, feedback */
@@ -141,7 +141,6 @@ p { text-wrap: pretty; }
 
 /* ---------- panel sections ---------- */
 .panel-section { max-width: var(--max); margin: var(--section-sm) auto 0; padding-inline: var(--margin); }
-#mission { margin-top: clamp(3rem, 6vw, 5rem); }
 .panel { border: 1px solid var(--rule-strong); border-radius: 6px; padding: clamp(1.5rem, 3vw, 2.25rem); }
 .panel-head { display: grid; grid-template-columns: auto 1fr; gap: 1rem 3rem; align-items: end; margin-bottom: 2.25rem; }
 .panel-head h2, .feed-copy h2, .tele-copy h2, .faq h2, .contact h2 { font-size: var(--t-h2); line-height: 1.02; letter-spacing: -0.022em; font-weight: 720; }
@@ -218,7 +217,7 @@ p { text-wrap: pretty; }
 [data-ui] .tele-table td:last-child { color: var(--muted); }
 
 /* ---------- sample logos ---------- */
-.logos { max-width: var(--max); margin: clamp(2.5rem, 5vw, 4rem) auto 0; padding: 2.25rem var(--margin); border-block: 1px solid var(--rule); }
+.logos { max-width: var(--max); margin: var(--section) auto 0; padding: 2.25rem var(--margin); border-block: 1px solid var(--rule); }
 .logos-h { font-family: var(--f-text); margin: 0 0 1.5rem; font-size: var(--t-sm); font-weight: 500; color: var(--muted); display: flex; flex-wrap: wrap; gap: 0.25rem 1rem; }
 .logos-h span { color: var(--dim); }
 .logo-row { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 1.5rem; align-items: center; }
@@ -540,7 +539,7 @@ p { text-wrap: pretty; }
 .cta-row { display: flex; flex-wrap: wrap; gap: 0.75rem; align-self: center; justify-self: end; }
 
 /* forms */
-.book { max-width: var(--max); margin: clamp(2.5rem, 5vw, 4rem) auto 0; padding-inline: var(--margin); display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: clamp(2rem, 5vw, 4.5rem); align-items: start; }
+.book { max-width: var(--max); margin: var(--section) auto 0; padding-inline: var(--margin); display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: clamp(2rem, 5vw, 4.5rem); align-items: start; }
 fieldset { border: 0; padding: 0; margin: 0 0 2.25rem; display: grid; gap: 1.25rem; }
 legend { font-family: var(--f-title); font-size: 1.5rem; font-weight: 700; letter-spacing: -0.02em; padding: 0; margin-bottom: 1.25rem; }
 .field { display: grid; gap: 0.45rem; }
@@ -614,7 +613,7 @@ legend { font-family: var(--f-title); font-size: 1.5rem; font-weight: 700; lette
   .signal i:nth-child(3) { animation-delay: 2.14s; }
 }
 @keyframes signal { 0% { transform: scale(0.3); opacity: 0.9; } 100% { transform: scale(1.05); opacity: 0; } }
-.contact-page { max-width: var(--max); margin: clamp(2.5rem, 5vw, 4rem) auto 0; padding-inline: var(--margin); display: grid; gap: clamp(5rem, 9vw, 8rem); }
+.contact-page { max-width: var(--max); margin: var(--section) auto 0; padding-inline: var(--margin); display: grid; gap: var(--section); }
 .channels--page { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .channels--page .ch { padding: 2rem; }
 .msg-wrap { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(2rem, 5vw, 5rem); align-items: start; }
@@ -864,7 +863,7 @@ legend { font-family: var(--f-title); font-size: 1.5rem; font-weight: 700; lette
   .stages::before, .stages::after, .stage::before { display: none; }
 }
 @media (min-width: 761px) and (max-width: 1100px) {
-  :root { --section: clamp(5rem, 9vw, 6.5rem); --section-sm: clamp(4rem, 7vw, 5rem); }
+  :root { --section: 4rem; }
   .monthly li, .stage { padding: 1.25rem; }
   /* routing: hub on top, sources and engines side by side */
   .routing { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 1rem; align-items: start; }
@@ -872,7 +871,7 @@ legend { font-family: var(--f-title); font-size: 1.5rem; font-weight: 700; lette
   .r-hub { max-width: 32rem; width: 100%; }
 }
 @media (max-width: 760px) {
-  :root { --section: 4.5rem; --section-sm: 3.75rem; }
+  :root { --section: 3.5rem; }
   .panel-head { margin-bottom: 1.5rem; }
 
   /* swipe rows: stages and monthly deliverables */

@@ -49,7 +49,7 @@ rounded:
   pill: "999px"
 spacing:
   margin: "clamp(1rem, 2.4vw, 2.5rem)"
-  section: "clamp(6rem, 11vw, 10rem)"
+  section: "clamp(4rem, 6.5vw, 5.5rem)"
 components:
   button-primary:
     backgroundColor: "{colors.gold}"
@@ -98,7 +98,7 @@ Bricolage Grotesque (user's choice) for titles and the wordmark, Archivo for run
 
 ## Layout
 
-A 96rem frame. The hero console is 34rem tall at desktop so the telemetry strip and the top of Mission stages sit inside the first viewport, as in the comp. Panels separate by `clamp(6rem, 11vw, 10rem)`. On phones the flight path becomes its own 22rem block under the headline.
+A 96rem frame. The hero console is 34rem tall at desktop so the telemetry strip and the top of Mission stages sit inside the first viewport, as in the comp. Every section is separated by the same gap, `--section`: `clamp(4rem, 6.5vw, 5.5rem)` on desktop, 4rem on tablets, 3.5rem on phones. On phones the flight path becomes its own 22rem block under the headline.
 
 ## Elevation & Depth
 
