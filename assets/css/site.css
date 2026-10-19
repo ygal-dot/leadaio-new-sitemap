@@ -1293,3 +1293,4 @@ legend { font-family: var(--f-title); font-size: 1.5rem; font-weight: 700; lette
   .rd-n { top: 1.35rem; font-size: 0.625rem; }
   .vz-read > div { padding: 0 1rem; }
 }
+.gold { color: var(--gold); }
