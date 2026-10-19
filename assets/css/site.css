@@ -1036,6 +1036,10 @@ legend { font-family: var(--f-title); font-size: 1.5rem; font-weight: 700; lette
 .bg-network { --bg-img: url("../img/bg-network.jpg"); }
 .bg-circuit { --bg-img: url("../img/bg-circuit.jpg"); }
 .bg-servers { --bg-img: url("../img/bg-servers.jpg"); }
+.bg-globe { --bg-img: url("../img/bg-globe.jpg"); --band-pos: right center; --band-o: 0.42; }
+.bg-contours { --bg-img: url("../img/bg-contours.jpg"); --band-pos: center 30%; --band-o: 0.4; }
+.bg-grid { --bg-img: url("../img/bg-grid.jpg"); --band-pos: center 75%; }
+.bg-rain { --bg-img: url("../img/bg-rain.jpg"); --band-pos: right center; }
 
 /* inside a console frame: image behind everything, faded out under the copy */
 .has-bg { isolation: isolate; }
@@ -1047,7 +1051,7 @@ legend { font-family: var(--f-title); font-size: 1.5rem; font-weight: 700; lette
 
 /* full-bleed band behind a section */
 .band { position: relative; isolation: isolate; }
-.band::before { content: ""; position: absolute; z-index: -1; pointer-events: none; top: calc(-0.75 * var(--section)); bottom: calc(-0.75 * var(--section)); left: calc(50% - 50vw); width: 100vw; background: var(--bg-img) center / cover no-repeat; opacity: 0.7; -webkit-mask-image: linear-gradient(180deg, transparent, #000 22%, #000 78%, transparent); mask-image: linear-gradient(180deg, transparent, #000 22%, #000 78%, transparent); }
+.band::before { content: ""; position: absolute; z-index: -1; pointer-events: none; top: calc(-0.75 * var(--section)); bottom: calc(-0.75 * var(--section)); left: calc(50% - 50vw); width: 100vw; background: var(--bg-img) var(--band-pos, center) / cover no-repeat; opacity: calc(var(--band-o, 0.7) * var(--band-k, 1)); -webkit-mask-image: linear-gradient(180deg, transparent, #000 22%, #000 78%, transparent); mask-image: linear-gradient(180deg, transparent, #000 22%, #000 78%, transparent); }
 
 @media (max-width: 900px) {
   /* stacked hero: image sits under the flight path, copy stays clean */
@@ -1086,3 +1090,8 @@ legend { font-family: var(--f-title); font-size: 1.5rem; font-weight: 700; lette
   }
 }
 @keyframes pf-drift { from { transform: translateY(6%) scale(1.06); } to { transform: none; } }
+
+/* mid-page bands: a little quieter on phones, where text sits over more of the image */
+@media (max-width: 760px) {
+  .band { --band-k: 0.7; }
+}
