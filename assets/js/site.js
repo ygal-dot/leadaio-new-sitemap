@@ -552,6 +552,58 @@ addEventListener('load', toTop);
   });
 })();
 
+// ---------- about: launch panel, a rocket that flies to "Named first" on a loop ----------
+(() => {
+  const scene = document.querySelector('.launch');
+  if (!scene) return;
+  const rk = scene.querySelector('#rk'), path = scene.querySelector('#rk-path'), status = scene.querySelector('#rk-status');
+  const L = path.getTotalLength();
+  path.style.strokeDasharray = `${L} ${L}`;
+  const place = (t) => {
+    const d = Math.min(L, t * L), p = path.getPointAtLength(d), q = path.getPointAtLength(Math.min(L, d + 1)), q0 = path.getPointAtLength(Math.max(0, d - 1));
+    const a = Math.atan2(q.y - q0.y, q.x - q0.x) * 180 / Math.PI;
+    rk.setAttribute('transform', `translate(${p.x.toFixed(2)} ${p.y.toFixed(2)}) rotate(${a.toFixed(2)})`);
+    path.style.strokeDashoffset = L - d;
+  };
+  const set = (...on) => ['is-lit', 'is-ignite', 'is-docked', 'is-gone', 'is-fade'].forEach((c) => scene.classList.toggle(c, on.includes(c)));
+  if (reduced()) { place(0.62); set('is-lit'); status.textContent = 'In flight'; return; }
+
+  let timers = [], raf = 0, running = false;
+  const later = (ms, fn) => timers.push(setTimeout(fn, ms));
+  const stop = () => { timers.forEach(clearTimeout); timers = []; cancelAnimationFrame(raf); running = false; };
+  const fly = () => {
+    const t0 = performance.now(), dur = 3200;
+    const step = (now) => {
+      const k = Math.min(1, (now - t0) / dur);
+      const e = k < 0.5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2; // ease-in-out: lift slowly, coast in
+      place(e);
+      status.textContent = k < 0.15 ? 'Liftoff' : `In flight · ${Math.round(e * 100)}%`;
+      if (k > 0.12) scene.classList.remove('is-ignite');
+      if (k < 1) raf = requestAnimationFrame(step); else dock();
+    };
+    raf = requestAnimationFrame(step);
+  };
+  const dock = () => {
+    set('is-docked', 'is-gone'); status.textContent = 'Named first';
+    later(1600, () => set('is-gone', 'is-fade', 'is-docked'));
+    later(2400, () => { place(0); set('is-gone', 'is-fade'); status.textContent = 'Ready on the pad'; });
+    later(2600, () => set());
+    later(3600, cycle);
+  };
+  const cycle = () => {
+    running = true; place(0); set();
+    ['T-3', 'T-2', 'T-1'].forEach((txt, i) => later(i * 450, () => { status.textContent = txt; }));
+    later(700, () => set('is-lit', 'is-ignite'));
+    later(1400, fly);
+  };
+  place(0);
+  if (!('IntersectionObserver' in window)) { cycle(); return; }
+  new IntersectionObserver(([e]) => {
+    if (e.isIntersecting && !running) { later(300, cycle); running = true; }
+    else if (!e.isIntersecting && running) { stop(); place(0); set(); status.textContent = 'Ready on the pad'; }
+  }, { threshold: 0.35 }).observe(scene);
+})();
+
 // ---------- live chat ----------
 // Wire your chat widget by defining window.LeadAIOChat.open(). Until then the link opens an email.
 document.querySelectorAll('[data-chat]').forEach((a) => a.addEventListener('click', (e) => {

@@ -911,3 +911,61 @@ legend { font-family: var(--f-title); font-size: 1.5rem; font-weight: 700; lette
 .swipe-dots i { width: 14px; height: 2px; border-radius: 2px; background: var(--rule-strong); transition: background-color 200ms ease, transform 200ms var(--ease); transform-origin: left; }
 .swipe-dots i.is-on { background: var(--gold); transform: scaleX(1.6); }
 @media (min-width: 761px) { .swipe-hint { display: none; } }
+
+/* =========================================================
+   ABOUT: launch panel with a rocket
+   ========================================================= */
+.console--launch { align-items: center; }
+.launch-copy { display: grid; gap: 2rem; justify-items: start; }
+.launch-copy .cta-row { justify-self: start; }
+.launch { width: 100%; max-width: 30rem; justify-self: end; }
+.launch-svg { width: 100%; height: auto; overflow: hidden; font-family: var(--f-data); }
+.rk-grid line { stroke: var(--grid); stroke-width: 1; }
+.rk-ground { stroke: var(--rule-strong); stroke-width: 1.25; }
+.rk-tower path { fill: none; stroke: var(--rule-strong); stroke-width: 1.5; stroke-linecap: round; }
+.rk-arm { fill: none; stroke: var(--rule-strong); stroke-width: 2; stroke-linecap: round; transform-box: fill-box; transform-origin: left center; transition: transform 500ms var(--ease); }
+.rk-ghost { fill: none; stroke: rgba(242, 193, 78, 0.22); stroke-width: 1.5; stroke-dasharray: 3 6; }
+.rk-trail { fill: none; stroke: var(--gold); stroke-width: 2.25; stroke-linecap: round; transition: opacity 600ms ease; }
+.rk-target circle { fill: none; stroke: var(--gold); stroke-width: 1; }
+.rk-target circle:first-child { opacity: 0.4; stroke-dasharray: 2 4; }
+.rk-target circle:nth-child(2) { opacity: 0.7; }
+.rk-target .rk-dot { fill: var(--gold); stroke: none; opacity: 0.35; transition: opacity 300ms ease; }
+.rk-target { transform-box: fill-box; transform-origin: center; }
+.rk-label { fill: var(--gold); font-size: 11px; letter-spacing: 0.04em; }
+.rk-status { fill: var(--muted); font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; }
+.rk-puffs circle { fill: none; stroke: var(--muted); stroke-width: 1; opacity: 0; transform-box: fill-box; transform-origin: center; }
+.rk-body { fill: var(--panel-2); stroke: var(--ink); stroke-width: 1.5; stroke-linejoin: round; }
+.rk-nose { fill: var(--gold); }
+.rk-fin { fill: var(--gold); opacity: 0.85; }
+.rk-window { fill: var(--bg); stroke: var(--gold); stroke-width: 1.5; }
+.rk-nozzle { fill: none; stroke: var(--ink); stroke-width: 1.5; }
+.rk-flame { transform-box: fill-box; transform-origin: right center; transform: scale(0); transition: transform 260ms var(--ease); }
+.rk-flame .f1 { fill: var(--gold); }
+.rk-flame .f2 { fill: #fff3d1; }
+.rk { transition: opacity 500ms ease; }
+.launch.is-lit .rk-flame { transform: none; }
+.launch.is-lit .rk-arm { transform: rotate(-60deg); }
+.launch.is-docked .rk-dot { opacity: 1; }
+.launch.is-docked .rk-label { fill: var(--gold-hi); }
+.launch.is-gone .rk { opacity: 0; }
+.launch.is-fade .rk-trail { opacity: 0; }
+@media (prefers-reduced-motion: no-preference) {
+  .launch.is-lit .rk-flame .f1 { animation: flicker 140ms steps(2) infinite alternate; transform-box: fill-box; transform-origin: right center; }
+  .launch.is-lit .rk-flame .f2 { animation: flicker 110ms steps(2) infinite alternate-reverse; transform-box: fill-box; transform-origin: right center; }
+  .launch.is-ignite .rk-shake { animation: shake 90ms linear infinite; }
+  .launch.is-ignite .rk-puffs circle { animation: puff 1.6s var(--ease) forwards; }
+  .launch.is-ignite .rk-puffs circle:nth-child(2) { animation-delay: 120ms; }
+  .launch.is-ignite .rk-puffs circle:nth-child(3) { animation-delay: 240ms; }
+  .launch.is-ignite .rk-puffs circle:nth-child(4) { animation-delay: 360ms; }
+  .launch.is-docked .rk-target { animation: dock 700ms var(--ease); }
+}
+@keyframes flicker { from { transform: scale(0.82, 0.9); } to { transform: scale(1.12, 1.05); } }
+@keyframes shake { 0% { transform: translate(0, 0); } 25% { transform: translate(0.6px, -0.5px); } 50% { transform: translate(-0.5px, 0.6px); } 75% { transform: translate(0.5px, 0.4px); } 100% { transform: translate(0, 0); } }
+@keyframes puff { 0% { opacity: 0.7; transform: translateX(0) scale(0.3); } 100% { opacity: 0; transform: translateX(var(--dx)) scale(1.8); } }
+@keyframes dock { 40% { transform: scale(1.25); } }
+@media (min-width: 761px) {
+  .console--small.console--launch { grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); }
+}
+@media (max-width: 760px) {
+  .launch { justify-self: center; max-width: 24rem; margin-top: 0.5rem; }
+}
