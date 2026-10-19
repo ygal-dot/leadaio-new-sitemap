@@ -1028,3 +1028,39 @@ legend { font-family: var(--f-title); font-size: 1.5rem; font-weight: 700; lette
   .cs > * { grid-column: 1 !important; grid-row: auto !important; }
   .cs h3 { font-size: 1.3rem; }
 }
+
+/* =========================================================
+   BACKGROUND IMAGES (black and white, generated for LeadAIO)
+   ========================================================= */
+.bg-terrain { --bg-img: url("../img/bg-terrain.jpg"); }
+.bg-network { --bg-img: url("../img/bg-network.jpg"); }
+.bg-circuit { --bg-img: url("../img/bg-circuit.jpg"); }
+.bg-servers { --bg-img: url("../img/bg-servers.jpg"); }
+
+/* inside a console frame: image behind everything, faded out under the copy */
+.has-bg { isolation: isolate; }
+.has-bg::after { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; background: var(--bg-img) var(--bg-pos, right center) / cover no-repeat; opacity: var(--bg-o, 0.9); -webkit-mask-image: var(--bg-mask, linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.35) 30%, #000 65%)); mask-image: var(--bg-mask, linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.35) 30%, #000 65%)); }
+.console.has-bg { overflow: hidden; }
+.hero .console.has-bg { overflow: visible; }
+.hero .has-bg::after { --bg-pos: right bottom; opacity: 1; }
+.console--small.has-bg::after { --bg-mask: linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.25) 35%, #000 75%); opacity: 0.85; }
+
+/* full-bleed band behind a section */
+.band { position: relative; isolation: isolate; }
+.band::before { content: ""; position: absolute; z-index: -1; pointer-events: none; top: calc(-0.75 * var(--section)); bottom: calc(-0.75 * var(--section)); left: calc(50% - 50vw); width: 100vw; background: var(--bg-img) center / cover no-repeat; opacity: 0.7; -webkit-mask-image: linear-gradient(180deg, transparent, #000 22%, #000 78%, transparent); mask-image: linear-gradient(180deg, transparent, #000 22%, #000 78%, transparent); }
+
+@media (max-width: 900px) {
+  /* stacked hero: image sits under the flight path, copy stays clean */
+  .hero .has-bg::after { --bg-mask: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.3) 35%, #000 70%); --bg-pos: center bottom; }
+  .console--page.has-bg::after { --bg-mask: linear-gradient(180deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.45) 45%, #000 100%); --bg-pos: center; opacity: 0.75; }
+  .console--small.has-bg::after { --bg-mask: linear-gradient(180deg, rgba(0, 0, 0, 0.15), #000 80%); opacity: 0.6; }
+}
+/* circuit: mirror so the chip sits on the right, away from the copy */
+.bg-circuit.has-bg::after { transform: scaleX(-1); --bg-pos: left center; --bg-mask: linear-gradient(270deg, transparent 0%, rgba(0, 0, 0, 0.2) 35%, #000 75%); opacity: 0.6; }
+@media (max-width: 900px) {
+  .console--page.bg-circuit.has-bg::after { opacity: 0.38; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .js .has-bg::after, .js .band::before { animation: bg-in 1800ms ease 150ms backwards; }
+}
+@keyframes bg-in { from { opacity: 0; } }
