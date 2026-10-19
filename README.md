@@ -19,7 +19,7 @@ Home (`index.html`):
 1. **Hero console:** "Launch your brand into AI answers." A gold flight path climbs from Unknown past Reddit threads, review sites and best-of lists to Named first, with a telemetry strip. Waypoints are clickable; "Replay launch" replays it.
 2. **Sample logos** (marquee).
 3. **Mission stages:** audit, placement plan, placements live, telemetry review.
-4. **SEO vs AEO:** a five-row comparison table.
+4. **SEO vs AIO:** a five-row comparison table.
 5. **Live answer feed:** a sample AI answer that names "Your brand" first, with its sources, per engine.
 6. **Source routing:** five programs wired through LeadAIO to four engines.
 7. **Inside each program:** tabs (arrow keys work) with what we do, what you get and what you approve.
