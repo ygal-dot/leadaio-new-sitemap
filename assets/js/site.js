@@ -252,11 +252,11 @@ addEventListener('load', toTop);
 
 // ---------- reveal once on entering the viewport ----------
 (() => {
-  const groups = ['.panel-head', '.stage', '.feed-copy', '.feed', '.r-sources li', '.r-hub', '.r-engines li', '.tele-copy', '.tele', '.ch', '.shift', '.rules li', '.never-list li', '.cover > div', '.agenda li', '.briefing', '.msg-copy', '.msg-form', '.mini-faq', '.about-why h2', '.never-copy', '.chips li', '.field', '.book legend', '.form-end', '.foot-in > *', '.foot-legal', '.contact-head', '.cta-row', '.agenda h2', '.versus-head', '.vt-row', '.programs-detail > h2', '.pd', '.case-steps li', '.case-meter', '.prompts-head', '.prompt-bar', '.prompt-list li', '.fit-col h2', '.fit-list li', '.monthly li', '.monthly-cta', '.cases-head', '.cs', '.sourced-head', '.sc', '.vz-intro', '.vz-aside', '.vz-copy > :not(.vz-caps)', '.vz-caps li', '.vz-read', '.win-copy > *', '.stats h2'];
+  const groups = ['.panel-head', '.stage', '.feed-copy', '.feed', '.r-sources li', '.r-hub', '.r-engines li', '.tele-copy', '.tele', '.ch', '.shift', '.rules li', '.never-list li', '.cover > div', '.agenda li', '.briefing', '.msg-copy', '.msg-form', '.mini-faq', '.about-why h2', '.never-copy', '.chips li', '.field', '.book legend', '.form-end', '.foot-in > *', '.foot-legal', '.contact-head', '.cta-row', '.agenda h2', '.versus-head', '.vt-row', '.programs-detail > h2', '.pd', '.case-steps li', '.case-meter', '.prompts-head', '.prompt-bar', '.prompt-list li', '.fit-col h2', '.fit-list li', '.monthly li', '.monthly-cta', '.cases-head', '.cs', '.sourced-head', '.sc', '.vz-intro', '.vz-aside', '.vz-copy > :not(.vz-caps)', '.vz-caps li', '.vz-read', '.win-copy > *', '.stats h2', '.ai-head', '.ash', '.ai-banner', '.dc', '.hw', '.pl', '.hub-core', '.ai-pill', '.wn li', '.ai-chart', '.df', '.pr'];
   const targets = [];
   for (const sel of groups) document.querySelectorAll(sel).forEach((n, i) => { n.classList.add('reveal'); n.style.setProperty('--i', i); targets.push(n); });
   // these only flip a state (track fill, corner brackets, table rows); they don't fade as a block
-  document.querySelectorAll('.stages, .console--small, .agenda, .versus-table').forEach((n) => targets.push(n));
+  document.querySelectorAll('.stages, .console--small, .agenda, .versus-table, .ai-shift, .ai-disc, .ai-proc').forEach((n) => targets.push(n));
   document.querySelectorAll('.tele-table tbody tr').forEach((r, i) => r.style.setProperty('--ri', i));
   // once an entrance has played, drop its delay so hover feedback is instant
   targets.forEach((t) => t.addEventListener('transitionend', (e) => {
@@ -717,6 +717,40 @@ addEventListener('load', toTop);
     it.classList.add('is-live'); count(it.querySelector('.st-n b'), k * 150); io.unobserve(it);
   }), { threshold: 0.4 });
   items.forEach((it) => io.observe(it));
+})();
+
+// ---------- AI Optimization page: platform hub wires with gold pulses ----------
+(() => {
+  const hub = document.querySelector('.ai-hub');
+  if (!hub) return;
+  const svg = hub.querySelector('.hub-wires'), core = hub.querySelector('.hub-core');
+  const NS = 'http://www.w3.org/2000/svg';
+  document.querySelectorAll('.serp li').forEach((li, k) => li.style.setProperty('--k', k));
+  const draw = () => {
+    svg.innerHTML = '';
+    if (getComputedStyle(svg).display === 'none') return;
+    const box = hub.getBoundingClientRect(), c = core.getBoundingClientRect();
+    const cx = c.left + c.width / 2 - box.left, cy = c.top + c.height / 2 - box.top, r = c.width / 2;
+    hub.querySelectorAll('.pl').forEach((pl, i) => {
+      const p = pl.getBoundingClientRect(), left = pl.classList.contains('pl--l');
+      const x1 = (left ? p.right : p.left) - box.left, y1 = p.top + p.height / 2 - box.top;
+      const ang = Math.atan2(y1 - cy, x1 - cx), x2 = cx + Math.cos(ang) * r, y2 = cy + Math.sin(ang) * r;
+      const mx = (x1 + x2) / 2;
+      const d = `M${x1},${y1} C${mx},${y1} ${mx},${y2} ${x2},${y2}`;
+      const base = document.createElementNS(NS, 'path'); base.setAttribute('d', d); svg.appendChild(base);
+      const flow = document.createElementNS(NS, 'path'); flow.setAttribute('d', d); flow.setAttribute('class', 'on'); svg.appendChild(flow);
+      if (!reduced()) {
+        const dot = document.createElementNS(NS, 'circle'); dot.setAttribute('r', '3.2');
+        const am = document.createElementNS(NS, 'animateMotion');
+        am.setAttribute('dur', `${2.6 + (i % 4) * 0.35}s`); am.setAttribute('repeatCount', 'indefinite'); am.setAttribute('begin', `${(i * 0.4).toFixed(1)}s`);
+        am.setAttribute('path', d); am.setAttribute('keyPoints', '0;1'); am.setAttribute('keyTimes', '0;1');
+        dot.appendChild(am); svg.appendChild(dot);
+      }
+    });
+  };
+  draw();
+  let t; addEventListener('resize', () => { clearTimeout(t); t = setTimeout(draw, 150); });
+  if (document.fonts) document.fonts.ready.then(draw);
 })();
 
 // ---------- live chat ----------

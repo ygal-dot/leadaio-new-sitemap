@@ -4,7 +4,7 @@ Static marketing site for LeadAIO, a managed AI visibility agency for B2B SaaS. 
 
 ```
 index.html            home page
-about.html, book.html, contact.html   inner pages
+about.html, book.html, contact.html, aio.html   inner pages
 assets/css/site.css   styles (tokens at the top)
 assets/js/site.js     flight path, answer feed, routing wires, telemetry chart, program tabs, mission meter, prompt filter, forms, live-chat hook
 assets/img/           black-and-white background images (generated for LeadAIO): hero consoles, the case studies band, and a closing image behind the last section of each page
@@ -36,7 +36,7 @@ Home (`index.html`):
 12. **Every month you get:** six deliverables and a call to action.
 13. **FAQ** and **contact** (email, live chat, phone).
 
-Inner pages: `about.html`, `book.html` (briefing form), `contact.html`.
+Inner pages: `about.html`, `book.html` (briefing form), `contact.html`, `aio.html` (AI Optimization: content from the LeadAIO AI Optimization deck, without plans or prices: the shift, AIO/GEO/AEO, how it works, platforms, why now, the LeadAIO difference, engagement process).
 
 Responsive: desktop above 1100px; tablets 761 to 1100px (stacked sections, hero path below the headline under 900px, menu button under 900px); phones up to 760px (mission stages and monthly deliverables become swipe rows, the example-mission meter sticks under the header). Every page opens at the top unless the link targets a section.
 
@@ -48,6 +48,7 @@ Design system: `DESIGN.md`. Product brief: `PRODUCT.md`. Approved mockups: `.imp
 - **Testimonials.** "Our clients are winning" shows eight sample quotes, attributed to roles only and marked (demo). Replace them with real, approved quotes before launch.
 - **Case studies.** The three customers are fictional demo brands with example figures. Replace them with real, approved case studies before launch.
 - **AI engine logos.** The hero row uses the ChatGPT (OpenAI), Claude, Perplexity and Gemini marks from Simple Icons (CC0 vectors; the marks remain their owners' trademarks). The Grok mark is a simple stand-in drawn for this site: swap in the official file from xAI before launch.
+- **AI Optimization page.** Built from the AI Optimization PDF (plans and prices left out on purpose). The deck lists hello@leadaio.com; the site keeps success@leadaio.com. The Microsoft Copilot and Siri icons are neutral stand-ins (no open-licence mark available); swap in approved logo files if you have them.
 - **Sample logos.** The eight logos are fictional placeholders for the demo. Replace them with real client logos you have permission to show, or remove the strip.
 - **Live chat.** "Start a live chat" calls `window.LeadAIOChat.open()` if a chat widget defines it, and otherwise opens an email. Wire your chat provider there.
 - **Booking.** "Book a call" opens an email with a prefilled subject. Replace it with your calendar link (Calendly, HubSpot and so on) if you have one.
