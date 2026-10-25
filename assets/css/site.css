@@ -1598,3 +1598,10 @@ ul.ai-disc { position: relative; display: grid; grid-template-columns: repeat(3,
   .partners { grid-template-columns: minmax(0, 1fr); }
   .partner { grid-template-columns: minmax(0, 1fr); }
 }
+
+/* paired buttons: always the same size, side by side or stacked */
+.cta-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(15.75rem, 1fr)); }
+.cta-row .btn { justify-content: center; }
+@media (max-width: 760px) {
+  .cta-row { grid-template-columns: minmax(0, 1fr); width: 100%; max-width: 26rem; }
+}
