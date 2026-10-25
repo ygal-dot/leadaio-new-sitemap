@@ -73,7 +73,7 @@ components:
 
 ## Overview
 
-The site is a mission-control console for a brand's launch into AI answers. The first screen is one bracketed console: a faint plotting grid, a gold flight path that climbs from Unknown past Reddit threads, review sites and best-of lists to the orbit Named first, and a telemetry strip of per-engine values below it. Every later section is another console panel: mission stages, a live answer feed, source routing, telemetry, contact. Gold always means the brand's own trajectory, live values or the action.
+The site is a mission-control console for a brand's launch into AI answers. The first screen is one bracketed console: a faint plotting grid, a gold flight path that climbs from Unknown past AI audit, entity authority and citations to the orbit Named first, and a telemetry strip of per-engine values below it. Every later section is another console panel: mission stages, a live answer feed, source routing, telemetry, contact. Gold always means the brand's own trajectory, live values or the action.
 
 Approved comp: `.impeccable/mocks/comp-1.png` (first viewport); section reference `.impeccable/mocks/comp-3.png`.
 

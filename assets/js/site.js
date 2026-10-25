@@ -34,7 +34,7 @@ addEventListener('load', toTop);
   const svg = document.getElementById('flight');
   if (!svg) return;
   const area = svg.parentElement;
-  // waypoints in % of the console: Unknown, Reddit threads, Review sites, Best-of lists, Named first
+  // waypoints in % of the console: Unknown, AI audit, Entity authority, Citations, Named first
   const PTS = [[4, 84], [39, 65], [57, 50], [70, 38], [86, 25]];
   // telemetry at each stage (example data): named of 40, ChatGPT, Perplexity, Gemini, AI Overviews
   const TM = [[3, 6, 7, 5, 5], [7, 17, 21, 12, 14], [11, 28, 33, 19, 23], [14, 36, 41, 25, 30], [16, 42, 47, 29, 34]];
@@ -93,7 +93,7 @@ addEventListener('load', toTop);
     // telemetry interpolates between stages
     let k = 0; while (k < stageAt.length - 2 && s > stageAt[k + 1]) k++;
     const t = Math.min(1, Math.max(0, (s - stageAt[k]) / (stageAt[k + 1] - stageAt[k] || 1)));
-    ids.forEach((n, j) => { n.textContent = Math.round(TM[k][j] + (TM[k + 1][j] - TM[k][j]) * t); });
+    ids.forEach((n, j) => { if (n) n.textContent = Math.round(TM[k][j] + (TM[k + 1][j] - TM[k][j]) * t); });
     wps.forEach((w, i) => w.classList.toggle('is-lit', s >= stageAt[i] - 1));
     orbit.style.setProperty('--orbit-o', s >= L - 1 ? '1' : '0.25');
   }
@@ -252,7 +252,7 @@ addEventListener('load', toTop);
 
 // ---------- reveal once on entering the viewport ----------
 (() => {
-  const groups = ['.panel-head', '.stage', '.feed-copy', '.feed', '.r-sources li', '.r-hub', '.r-engines li', '.tele-copy', '.tele', '.ch', '.shift', '.rules li', '.never-list li', '.cover > div', '.agenda li', '.briefing', '.msg-copy', '.msg-form', '.mini-faq', '.about-why h2', '.never-copy', '.chips li', '.field', '.book legend', '.form-end', '.foot-in > *', '.foot-legal', '.contact-head', '.cta-row', '.agenda h2', '.versus-head', '.vt-row', '.programs-detail > h2', '.pd', '.case-steps li', '.case-meter', '.prompts-head', '.prompt-bar', '.prompt-list li', '.fit-col h2', '.fit-list li', '.monthly li', '.monthly-cta', '.cases-head', '.cs', '.sourced-head', '.sc', '.vz-intro', '.vz-aside', '.vz-copy > :not(.vz-caps)', '.vz-caps li', '.vz-read', '.win-copy > *', '.stats h2', '.ai-head', '.ash', '.ai-banner', '.dc', '.hw', '.pl', '.hub-core', '.ai-pill', '.wn li', '.ai-chart', '.df', '.pr'];
+  const groups = ['.panel-head', '.stage', '.feed-copy', '.feed', '.r-sources li', '.r-hub', '.r-engines li', '.tele-copy', '.tele', '.ch', '.shift', '.rules li', '.never-list li', '.cover > div', '.agenda li', '.briefing', '.msg-copy', '.msg-form', '.mini-faq', '.about-why h2', '.never-copy', '.chips li', '.field', '.book legend', '.form-end', '.foot-in > *', '.foot-legal', '.contact-head', '.cta-row', '.agenda h2', '.versus-head', '.vt-row', '.programs-detail > h2', '.pd', '.case-steps li', '.case-meter', '.prompts-head', '.prompt-bar', '.prompt-list li', '.fit-col h2', '.fit-list li', '.monthly li', '.monthly-cta', '.cases-head', '.cs', '.sourced-head', '.sc', '.vz-intro', '.vz-aside', '.vz-copy > :not(.vz-caps)', '.vz-caps li', '.vz-read', '.win-copy > *', '.stats h2', '.ai-head', '.ash', '.ai-banner', '.dc', '.hw', '.pl', '.hub-core', '.ai-pill', '.wn li', '.ai-chart', '.df', '.pr', '.partner'];
   const targets = [];
   for (const sel of groups) document.querySelectorAll(sel).forEach((n, i) => { n.classList.add('reveal'); n.style.setProperty('--i', i); targets.push(n); });
   // these only flip a state (track fill, corner brackets, table rows); they don't fade as a block
@@ -388,6 +388,8 @@ addEventListener('load', toTop);
         const v = data.getAll(k).map((x) => String(x).trim()).filter(Boolean).join(', ');
         if (v) lines.push(`${k}: ${v}`);
       }
+      // Zoho: once data-zoho holds the form URL, post the fields straight to Zoho (names must match Zoho's)
+      if (form.dataset.zoho) { form.action = form.dataset.zoho; form.method = 'post'; form.submit(); return; }
       const subject = `${form.dataset.subject}${data.get('Company') ? ' · ' + data.get('Company') : ''}`;
       location.href = `mailto:${form.dataset.mailto}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(lines.join('\n'))}`;
       form.classList.add('is-sent');
@@ -397,6 +399,13 @@ addEventListener('load', toTop);
     const again = form.querySelector('#brief-again, [data-again]');
     again && again.addEventListener('click', () => { form.classList.remove('is-sent'); done.hidden = true; form.querySelector('input, textarea').focus(); });
   });
+})();
+
+// ---------- book page: ?want=score preselects the AI Visibility Score ----------
+(() => {
+  const want = new URLSearchParams(location.search).get('want');
+  const pick = want === 'score' && document.querySelector('input[name="Request"][value="My AI Visibility Score"]');
+  if (pick) pick.checked = true;
 })();
 
 // ---------- booking: the briefing card mirrors the form as it is filled in ----------
@@ -674,7 +683,7 @@ addEventListener('load', toTop);
   new IntersectionObserver(([e]) => {
     visible = e.isIntersecting;
     radar.classList.toggle('is-paused', !visible);
-    if (visible) { raf = requestAnimationFrame(angle); if (!played) { played = true; radar.classList.add('is-live'); read.querySelectorAll('b[data-to]').forEach(count); } }
+    if (visible) { raf = requestAnimationFrame(angle); if (!played) { played = true; radar.classList.add('is-live'); if (read) read.querySelectorAll('b[data-to]').forEach(count); } }
     else cancelAnimationFrame(raf);
   }, { threshold: 0.2 }).observe(radar);
 })();

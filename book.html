@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Book a call · LeadAIO</title>
-  <meta name="description" content="Book a 15-minute strategy call with LeadAIO. Bring your category and the rivals AI names instead of you.">
+  <title>Book a consultation · LeadAIO</title>
+  <meta name="description" content="Book a consultation with LeadAIO, or request your AI Visibility Score.">
   <meta name="theme-color" content="#090909">
   <link rel="preload" href="assets/fonts/bricolage-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/archivo-latin.woff2" as="font" type="font/woff2" crossorigin>
@@ -22,23 +22,22 @@
       <img class="brand-logo" src="assets/img/leadaio-logo.png" alt="LeadAIO" width="800" height="155">
     </a>
     <nav class="bar-nav" aria-label="Main">
-      <a href="index.html#mission">The mission</a>
-      <a href="index.html#programs">Programs</a>
-      <a href="aio.html">AI Optimization</a>
+      <a href="how-it-works.html">How it works</a>
+      <a href="ai-visibility-score.html">AI Visibility Score</a>
+      <a href="who-we-serve.html">Who we serve</a>
       <a href="about.html">About</a>
-      <a href="contact.html">Contact</a>
     </nav>
     <div class="bar-end">
-      <a class="btn btn--gold btn--sm" href="book.html" aria-current="page">Book a call <svg class="arr" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 8h11M9 4l4 4-4 4"/></svg></a>
+      <a class="btn btn--gold btn--sm" href="book.html"><span>Book<span class="hide-sm"> a consultation</span></span> <svg class="arr" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 8h11M9 4l4 4-4 4"/></svg></a>
       <details class="menu">
         <summary aria-label="Menu"><span></span><span></span></summary>
         <nav class="menu-panel" aria-label="Mobile">
-      <a href="index.html#mission">The mission</a>
-      <a href="index.html#programs">Programs</a>
-      <a href="aio.html">AI Optimization</a>
-      <a href="about.html">About</a>
-      <a href="contact.html">Contact</a>
-          <a href="book.html">Book a call</a>
+          <a href="index.html">Home</a>
+          <a href="how-it-works.html">How it works</a>
+          <a href="ai-visibility-score.html">AI Visibility Score</a>
+          <a href="who-we-serve.html">Who we serve</a>
+          <a href="about.html">About</a>
+          <a href="book.html">Book a consultation</a>
         </nav>
       </details>
     </div>
@@ -52,86 +51,71 @@
     <span class="corner corner--tl" aria-hidden="true"></span><span class="corner corner--tr" aria-hidden="true"></span>
     <span class="corner corner--bl" aria-hidden="true"></span><span class="corner corner--br" aria-hidden="true"></span>
     <div class="page-hero-copy">
-      <h1 id="book-h">Book your mission briefing.</h1>
-      <p class="hero-sub">Fifteen minutes. Tell us your category and the rivals AI names instead of you, and we will show you where their citations come from.</p>
+      <h1 id="book-h">Book a consultation.</h1>
+      <p class="hero-sub">Tell us a little about your company. We will come back with times, and look at how AI engines describe your brand today.</p>
     </div>
     <dl class="hero-meta">
-      <div><dt>Length</dt><dd>15 min</dd></div>
       <div><dt>Format</dt><dd>Video call</dd></div>
       <div><dt>Hours</dt><dd>Mon to Fri, 8am to 5pm</dd></div>
+      <div><dt>Form</dt><dd>One minute</dd></div>
     </dl>
   </div>
 </section>
 
-<section class="band bg-network book" aria-label="Booking request">
-  <form class="brief-form" id="brief-form" data-mailto="success@leadaio.com" data-subject="Strategy call request" novalidate>
+<section class="band bg-network book" id="consult" aria-label="Consultation request">
+  <form class="brief-form consult-form" id="consult-form" data-mailto="success@leadaio.com" data-subject="Consultation request" data-zoho="" novalidate>
+    <!-- Zoho: paste the Zoho Forms / CRM web-to-lead URL into data-zoho above, and rename the fields to match Zoho's. Leads route to Sivonne. -->
     <fieldset>
-      <legend>You</legend>
-      <div class="field"><label for="f-name">Name</label><input id="f-name" name="Name" autocomplete="name" required data-mirror="name"><p class="err" id="e-name">Add your name.</p></div>
-      <div class="field"><label for="f-email">Work email</label><input id="f-email" name="Work email" type="email" autocomplete="email" required data-mirror="email"><p class="err" id="e-email">Add a work email we can reply to, like you@company.com.</p></div>
-      <div class="field"><label for="f-role">Role <span class="opt">optional</span></label><input id="f-role" name="Role" autocomplete="organization-title" placeholder="Head of marketing" data-mirror="role"></div>
-    </fieldset>
-    <fieldset>
-      <legend>Your mission</legend>
-      <div class="field"><label for="f-company">Company</label><input id="f-company" name="Company" autocomplete="organization" required data-mirror="company"><p class="err" id="e-company">Add your company name.</p></div>
-      <div class="field"><label for="f-site">Website <span class="opt">optional</span></label><input id="f-site" name="Website" type="url" inputmode="url" placeholder="https://" data-mirror="site"></div>
-      <div class="field"><label for="f-cat">What do you sell?</label><input id="f-cat" name="Category" required placeholder="Payroll software for startups" data-mirror="category"><p class="err" id="e-cat">Tell us your category, in a few words.</p></div>
-      <div class="field"><label for="f-rivals">Rivals AI names instead of you <span class="opt">optional</span></label><input id="f-rivals" name="Rivals AI names" placeholder="Up to three, separated by commas" data-mirror="rivals"></div>
+      <legend>Your details</legend>
+      <div class="field-row">
+        <div class="field"><label for="f-name">Name</label><input id="f-name" name="Name" autocomplete="name" required><p class="err">Add your name.</p></div>
+        <div class="field"><label for="f-email">Work email</label><input id="f-email" name="Email" type="email" autocomplete="email" required><p class="err">Add a work email we can reply to, like you@company.com.</p></div>
+      </div>
+      <div class="field-row">
+        <div class="field"><label for="f-company">Company</label><input id="f-company" name="Company" autocomplete="organization" required><p class="err">Add your company name.</p></div>
+        <div class="field"><label for="f-site">Website <span class="opt">optional</span></label><input id="f-site" name="Website" type="url" inputmode="url" placeholder="https://"></div>
+      </div>
+      <div class="field"><label for="f-role">Role <span class="opt">optional</span></label><input id="f-role" name="Role" autocomplete="organization-title" placeholder="Head of marketing"></div>
       <div class="field">
-        <span class="label" id="eng-l">Engines that matter most</span>
-        <div class="checks" role="group" aria-labelledby="eng-l">
-          <label class="check"><input type="checkbox" name="Engines" value="ChatGPT" checked data-mirror="engines"><span>ChatGPT</span></label>
-          <label class="check"><input type="checkbox" name="Engines" value="Perplexity" checked data-mirror="engines"><span>Perplexity</span></label>
-          <label class="check"><input type="checkbox" name="Engines" value="Gemini" data-mirror="engines"><span>Gemini</span></label>
-          <label class="check"><input type="checkbox" name="Engines" value="Google AI Overviews" checked data-mirror="engines"><span>AI Overviews</span></label>
-          <label class="check"><input type="checkbox" name="Engines" value="Claude" data-mirror="engines"><span>Claude</span></label>
-          <label class="check"><input type="checkbox" name="Engines" value="Copilot" data-mirror="engines"><span>Copilot</span></label>
+        <span class="label" id="want-l">I would like</span>
+        <div class="checks checks--radio" role="radiogroup" aria-labelledby="want-l">
+          <label class="check"><input type="radio" name="Request" value="A consultation" checked><span>A consultation</span></label>
+          <label class="check"><input type="radio" name="Request" value="My AI Visibility Score"><span>My AI Visibility Score</span></label>
+          <label class="check"><input type="radio" name="Request" value="Both"><span>Both</span></label>
         </div>
       </div>
-      <div class="field">
-        <span class="label" id="time-l">Best time for the call</span>
-        <div class="checks checks--radio" role="radiogroup" aria-labelledby="time-l">
-          <label class="check"><input type="radio" name="Best time" value="Morning (8am to 12pm)" checked data-mirror="time"><span>Morning</span></label>
-          <label class="check"><input type="radio" name="Best time" value="Afternoon (12pm to 5pm)" data-mirror="time"><span>Afternoon</span></label>
-          <label class="check"><input type="radio" name="Best time" value="Any time" data-mirror="time"><span>Any time</span></label>
-        </div>
-      </div>
-      <div class="field"><label for="f-notes">Anything else? <span class="opt">optional</span></label><textarea id="f-notes" name="Notes" rows="3" placeholder="Launch dates, markets, what you have tried"></textarea></div>
+      <div class="field"><label for="f-notes">Anything else? <span class="opt">optional</span></label><textarea id="f-notes" name="Notes" rows="3" placeholder="Your goals, markets, the rivals AI names instead of you"></textarea></div>
     </fieldset>
     <div class="form-end">
-      <button class="btn btn--gold" type="submit">Request my briefing <svg class="arr" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 8h11M9 4l4 4-4 4"/></svg></button>
-      <p class="form-note">This opens an email to <span class="sel">success@leadaio.com</span> with your briefing filled in. We reply with times that work.</p>
+      <button class="btn btn--gold" type="submit">Book my consultation <svg class="arr" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 8h11M9 4l4 4-4 4"/></svg></button>
+      <p class="form-note">We reply during business hours, Monday to Friday, 8am to 5pm.</p>
     </div>
-    <div class="form-done" id="brief-done" hidden tabindex="-1">
-      <h2>Your briefing is ready to send.</h2>
-      <p>Your email app should have opened with the briefing. Press send there and we will reply with times. Nothing opened? Email <span class="sel">success@leadaio.com</span> or call <span class="sel">(888) 778-4649</span>.</p>
-      <button class="btn btn--line" type="button" id="brief-again">Edit the briefing</button>
+    <div class="form-done" hidden tabindex="-1">
+      <h2>Thank you. Your request is on its way.</h2>
+      <p>If your email app opened, press send there and we will reply with times. Nothing happened? Email <span class="sel">success@leadaio.com</span> or call <span class="sel">(888) 778-4649</span>.</p>
+      <button class="btn btn--line" type="button" data-again>Edit my request</button>
     </div>
   </form>
 
   <aside class="book-side">
-    <div class="briefing" data-ui aria-live="polite">
-      <div class="briefing-top"><span>Mission briefing</span><span class="brief-status" id="brief-status">Draft</span></div>
-      <dl class="brief-rows">
-        <div><dt>Pilot</dt><dd data-show="name" data-empty="Your name">Your name</dd></div>
-        <div><dt>Company</dt><dd data-show="company" data-empty="Your company">Your company</dd></div>
-        <div><dt>Category</dt><dd data-show="category" data-empty="What you sell">What you sell</dd></div>
-        <div><dt>Rivals</dt><dd data-show="rivals" data-empty="Who AI names instead">Who AI names instead</dd></div>
-        <div><dt>Engines</dt><dd data-show="engines" data-empty="None selected">ChatGPT, Perplexity, Google AI Overviews</dd></div>
-        <div><dt>Window</dt><dd data-show="time" data-empty="Any time">Morning (8am to 12pm)</dd></div>
-      </dl>
-      <div class="brief-progress"><span id="brief-bar"></span></div>
-      <p class="brief-count"><b id="brief-n">0</b> of 4 required fields</p>
-    </div>
-
     <div class="agenda">
-      <h2>What happens in 15 minutes</h2>
+      <h2>What happens next</h2>
       <ol>
-        <li><time>T+00</time><div><h3>Your category</h3><p>What you sell, who buys it, and the rivals AI names instead of you.</p></div></li>
-        <li><time>T+03</time><div><h3>Live prompts</h3><p>We run a few of your buyers’ questions on ChatGPT and Perplexity while you watch.</p></div></li>
-        <li><time>T+10</time><div><h3>The sources</h3><p>Where your rivals’ citations come from, and which ones you could win.</p></div></li>
-        <li><time>T+15</time><div><h3>Next step</h3><p>If it fits, a full audit of 40 buyer prompts. If not, you keep the notes.</p></div></li>
+        <li><time>01</time><div><h3>We reply</h3><p>A person from our team gets back to you with times for a call.</p></div></li>
+        <li><time>02</time><div><h3>Your goals</h3><p>What you sell, who buys it, and the rivals AI names instead of you.</p></div></li>
+        <li><time>03</time><div><h3>Live prompts</h3><p>We run a few of your buyers&rsquo; questions on AI engines while you watch.</p></div></li>
+        <li><time>04</time><div><h3>Next step</h3><p>If it fits, we propose a plan. If not, you keep the notes.</p></div></li>
       </ol>
+    </div>
+    <div class="channels channels--side">
+      <a class="ch" href="mailto:success@leadaio.com">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14"/><path d="M3 6l9 7 9-7"/></svg>
+        <span class="ch-name">Email us</span><span class="ch-value">success@leadaio.com</span>
+      </a>
+      <a class="ch" href="tel:+18887784649">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h4l2 5-3 2a11 11 0 005 5l2-3 5 2v4a2 2 0 01-2 2A17 17 0 014 5a2 2 0 012-2z"/></svg>
+        <span class="ch-name">Call us</span><span class="ch-value">(888) 778-4649</span>
+      </a>
     </div>
   </aside>
 </section>
@@ -146,17 +130,16 @@
       <a class="brand" href="index.html" aria-label="LeadAIO home">
         <img class="brand-logo" src="assets/img/leadaio-logo.png" alt="LeadAIO" width="800" height="155">
       </a>
-      <p>The managed AI visibility program for B2B SaaS.</p>
+      <p>AI visibility for mid-market brands.</p>
     </div>
     <nav class="foot-links" aria-label="Footer">
-      <div><h2>Programs</h2><ul role="list"><li><a href="aio.html#disciplines">AIO, GEO and AEO</a></li><li><a href="index.html#programs">Reddit growth</a></li><li><a href="index.html#programs">Google Autosuggest</a></li><li><a href="index.html#programs">Reputation and removal</a></li></ul></div>
-      <div><h2>LeadAIO</h2><ul role="list"><li><a href="aio.html">AI Optimization</a></li><li><a href="about.html">About</a></li><li><a href="index.html#cases">Case studies</a></li><li><a href="index.html#telemetry">Telemetry</a></li><li><a href="index.html#faq">FAQ</a></li><li><a href="book.html">Book a call</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+      <div><h2>Pages</h2><ul role="list"><li><a href="index.html">Home</a></li><li><a href="how-it-works.html">How it works</a></li><li><a href="ai-visibility-score.html">AI Visibility Score</a></li><li><a href="who-we-serve.html">Who we serve</a></li><li><a href="about.html">About</a></li><li><a href="book.html">Book a consultation</a></li></ul></div>
+      <div><h2>Contact</h2><ul role="list"><li><a href="mailto:success@leadaio.com">success@leadaio.com</a></li><li><a href="tel:+18887784649">(888) 778-4649</a></li><li>Monday to Friday, 8am to 5pm</li></ul></div>
       <div><h2>Legal</h2><ul role="list"><li><a href="#privacy">Privacy policy</a></li><li><a href="#terms">Terms</a></li></ul></div>
     </nav>
   </div>
   <div class="foot-legal">
-    <p>© 2026 LeadAIO. All rights reserved.</p>
-    <p>Logos and figures marked as examples are samples for demonstration.</p>
+    <p>&copy; 2026 LeadAIO. All rights reserved.</p>
   </div>
 </footer>
 
