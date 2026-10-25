@@ -10,8 +10,8 @@ colors:
   ink: "#f4f1ea"
   muted: "#a8a59e"
   dim: "#8c887f"
-  gold: "#f2c14e"
-  gold-hi: "#f7d27a"
+  gold: "#d6ae4b"
+  gold-hi: "#e4c574"
   on-gold: "#0b0a07"
   live: "#5fd38a"
 typography:
@@ -80,7 +80,7 @@ Approved comp: `.impeccable/mocks/comp-1.png` (first viewport); section referenc
 ## Colors
 
 ### Primary
-- **Flight gold** `#f2c14e`: the flight path, the brand marker and orbit, live values, tabs and the action. Hover `#f7d27a`.
+- **Flight gold** `#d6ae4b`: the flight path, the brand marker and orbit, live values, tabs and the action. Hover `#e4c574`.
 
 ### Neutral
 - **Console black** `#090909` ground; **panel** `#0e0e0d` and **panel-2** `#151513` for raised surfaces.

@@ -53,4 +53,4 @@ Design system: `DESIGN.md`. Product brief: `PRODUCT.md`. Approved mockups: `.imp
 - **Live chat.** "Start a live chat" calls `window.LeadAIOChat.open()` if a chat widget defines it, and otherwise opens an email. Wire your chat provider there.
 - **Booking.** "Book a call" opens an email with a prefilled subject. Replace it with your calendar link (Calendly, HubSpot and so on) if you have one.
 - **Legal pages.** "Privacy policy" and "Terms" link to `#privacy` and `#terms`, which don't exist yet.
-- **Logo.** The wordmark is set in Bricolage Grotesque with a small flight-path mark. Replace it with the real logo file if there is one.
+- **Logo.** The header and footer use `assets/img/leadaio-logo.png`, the LeadAIO logo with a transparent background and "Lead" in off-white so it reads on the black site. `assets/img/leadaio-logo-on-light.png` keeps "Lead" black for light backgrounds. Brand gold is `#D6AE4B`.

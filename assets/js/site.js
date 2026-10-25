@@ -226,7 +226,7 @@ addEventListener('load', toTop);
   const x = (i) => W0 + (i / 11) * (W1 - W0);
   const y = (v) => H0 - (v / MAX) * (H0 - H1);
   const SERIES = [
-    ['Perplexity', '#f2c14e', [4, 5, 7, 10, 14, 19, 25, 30, 36, 40, 44, 47]],
+    ['Perplexity', '#d6ae4b', [4, 5, 7, 10, 14, 19, 25, 30, 36, 40, 44, 47]],
     ['ChatGPT', '#f4f1ea', [2, 2, 3, 5, 8, 12, 17, 23, 29, 34, 39, 42]],
     ['AI Overviews', '#b8954a', [3, 3, 4, 6, 8, 11, 15, 19, 24, 28, 31, 34]],
     ['Gemini', '#8c887f', [2, 2, 2, 3, 5, 7, 10, 13, 17, 21, 25, 29]],
@@ -624,8 +624,8 @@ addEventListener('load', toTop);
   // one shared gradient for the area fills
   const defs = mk('svg', { width: 0, height: 0, 'aria-hidden': 'true', style: 'position:absolute' }, document.body);
   const g = mk('linearGradient', { id: 'sp-fade', x1: 0, y1: 0, x2: 0, y2: 1 }, mk('defs', {}, defs));
-  mk('stop', { offset: '0', 'stop-color': '#f2c14e', 'stop-opacity': '0.22' }, g);
-  mk('stop', { offset: '1', 'stop-color': '#f2c14e', 'stop-opacity': '0' }, g);
+  mk('stop', { offset: '0', 'stop-color': '#d6ae4b', 'stop-opacity': '0.22' }, g);
+  mk('stop', { offset: '1', 'stop-color': '#d6ae4b', 'stop-opacity': '0' }, g);
   cards.forEach((card) => {
     const svg = card.querySelector('.cs-spark');
     const d = svg.dataset.series.split(',').map(Number);
@@ -634,7 +634,7 @@ addEventListener('load', toTop);
     mk('line', { class: 'sp-base', x1: 0, y1: H - 4, x2: W, y2: H - 4 }, svg);
     mk('path', { class: 'sp-area', d: `M0,${H - 4} L${pts.join(' L')} L${W},${H - 4} Z` }, svg);
     mk('path', { class: 'sp-line', d: `M${pts.join(' L')}`, pathLength: 1 }, svg);
-    mk('circle', { class: 'sp-end', cx: x(d.length - 1), cy: y(d[d.length - 1]), r: 3.5, fill: '#f2c14e' }, svg);
+    mk('circle', { class: 'sp-end', cx: x(d.length - 1), cy: y(d[d.length - 1]), r: 3.5, fill: '#d6ae4b' }, svg);
   });
   const count = (b) => {
     const from = +b.dataset.from, to = +b.dataset.to;
