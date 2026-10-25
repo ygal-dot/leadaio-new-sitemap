@@ -28,7 +28,7 @@ Open `index.html` in a browser, or serve the folder with any static host.
 - **How it works:** then vs now, the four stages (Discovery and AI audit, Strategy and architecture, Launch and optimize, Scale and lead), AIO / GEO / AEO, the six disciplines, the platforms we optimize for, and what the client sees (score, blueprint, reporting, what moved it, QBRs, the plan ahead).
 - **AI Visibility Score:** what the score is, the radar console with the six readings it covers, how you get it in four steps, and a short FAQ. Its buttons open the booking form with "My AI Visibility Score" already selected (`book.html?want=score`).
 - **Who we serve:** six role cards (CEOs and founders, CMOs and VPs of marketing, growth and demand, SEO and content, brand and communications, sales), a good fit, and not the right fit.
-- **About:** the partners, how we work (including quarterly business reviews), the LeadAIO difference, what we will not do, and engine coverage.
+- **About:** the partners, how we work (including quarterly business reviews), the LeadAIO difference and engine coverage.
 - **Book a consultation:** name, work email, company, website and role, what they would like (consultation, score or both) and an optional note. Beside it: what happens next, email and phone.
 
 ## Before launch
