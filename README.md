@@ -42,4 +42,8 @@ Open `index.html` in a browser, or serve the folder with any static host.
 - **Live chat.** "Live chat" on the home page calls `window.LeadAIOChat.open()` if a chat widget defines it, and otherwise opens an email.
 - **Legal pages.** "Privacy policy" and "Terms" link to `#privacy` and `#terms`, which don't exist yet.
 
+## Deck
+
+`deck/LeadAIO-deck.pdf` is a 14-slide, 16:9 PDF deck made from the site's content and design. Rebuild it after changing the site with `python3 deck/build_deck.py --pdf` (it reads the copy and icons from the pages, so they stay in step). `deck/deck.css` holds the slide styles.
+
 Design system: `DESIGN.md`. Product brief: `PRODUCT.md`. Approved mockups: `.impeccable/mocks/`.
