@@ -1605,3 +1605,9 @@ ul.ai-disc { position: relative; display: grid; grid-template-columns: repeat(3,
 @media (max-width: 760px) {
   .cta-row { grid-template-columns: minmax(0, 1fr); width: 100%; max-width: 26rem; }
 }
+
+/* social links in the footer */
+.social { display: flex; gap: 0.75rem; margin-top: 0.5rem; }
+.social a { display: grid; place-items: center; width: 2.75rem; height: 2.75rem; border: 1px solid var(--rule-strong); border-radius: 50%; color: var(--ink); transition: color 160ms ease, border-color 160ms ease; }
+.social a:hover { color: var(--gold); border-color: var(--gold); }
+.social svg { width: 1.1rem; height: 1.1rem; fill: currentColor; }
